@@ -8,6 +8,8 @@ class Config(object):
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
 
+    SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+
 
 class ProductionConfig(Config):
     DEBUG = False

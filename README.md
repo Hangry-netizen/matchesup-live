@@ -33,7 +33,7 @@ If you're having trouble starting flask
 
 **Create a `.env` file at the root of the directory**
 
-This project uses `python-dotenv`. When running commands using `flask`, environment variables from `.env` are automatically loaded.
+This project uses `python-`. When running commands using `flask`, environment variables from `.env` are automatically loaded.
 
 When executing `python` scripts directly e.g. `python start.py`, environment variables are not loaded and will not work except `python migrate.py` _(read the script - `migrate.py` to know why it would load the environment variables `.env`)_
 

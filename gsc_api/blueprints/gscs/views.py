@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.gsc import *
+from helpers import send_gsc_consent_email
+from helpers import send_approved_email
 
 gscs_api_blueprint = Blueprint('gscs_api',
                              __name__)
@@ -127,6 +129,17 @@ def create():
                 ff_email = ff_email
         )
         if gsc.save():
+            email = gsc.email
+            data = {
+                "gscf_name": gsc.name,
+                "ff_name": gsc.ff_name,
+                "ff_email": gsc.ff_email,
+                "consent_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/consent",
+                "gsc_profile_link": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+            }
+
+            send_email = send_gsc_consent_email(to_email=email, dynamic_template_data=data)
+
             return jsonify({
                 "message": "Successfully added a new gsc",
                 "status": "success",
@@ -375,6 +388,7 @@ def consent(uuid):
             Gsc.notification_frequency,
             Gsc.what_is_important_to_me
             ]):
+            
             return jsonify({
                 "message": "Successfully submitted consent!",
                 "status": "success",
@@ -397,9 +411,9 @@ def consent(uuid):
             "status": "failed"
         })
 
-@gscs_api_blueprint.route('/status/<uuid>', methods=['POST'])
-def update_status(uuid):
-    update_status = Gsc.get_or_none(Gsc.uuid == uuid)
+@gscs_api_blueprint.route('/approve/<uuid>', methods=['POST'])
+def approve(uuid):
+    approve_gsc = Gsc.get_or_none(Gsc.uuid == uuid)
 
     data = request.json
 
@@ -407,28 +421,38 @@ def update_status(uuid):
     is_active = data.get('is_active') 
 
     if (
-    is_approved != "" or 
-    is_active != ""):
-        update_status.is_approved = is_approved 
-        update_status.is_active = is_active 
+    is_approved or 
+    is_active):
+        approve_gsc.is_approved = is_approved 
+        approve_gsc.is_active = is_active 
 
-        if update_status.save(only=[
+        if approve_gsc.save(only=[
             Gsc.is_approved, 
             Gsc.is_active,
             ]):
+
+            email = approve_gsc.email
+            data = {
+                "gscf_name": approve_gsc.name,
+                "edit_url": f"www.matchesup.com/good-single-christian-friend/{approve_gsc.uuid}"
+            }
+
+            send_email = send_approved_email(to_email=email, dynamic_template_data=data)
+
             return jsonify({
                 "message": "Successfully updated GSCF status!",
                 "status": "success",
-                 "gsc": {
-                    "uuid": update_status.uuid,
-                    "name": update_status.name,
-                    "alias": update_status.alias
+                "gsc": {
+                    "uuid": approve_gsc.uuid,
+                    "name": approve_gsc.name,
+                    "is_approved": approve_gsc.is_approved,
+                    "is_active": approve_gsc.is_active
                 }
             })
 
-        elif update_status.errors != 0:
+        elif approve.errors != 0:
             return jsonify({
-                "message": [error for error in update_status.errors],
+                "message": [error for error in approve.errors],
                 "status": "failed"
             })
     
@@ -438,16 +462,45 @@ def update_status(uuid):
             "status": "failed"
         })
 
-@gscs_api_blueprint.route('/references/<uuid>', methods=['GET'])
-def reference (uuid):
-    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
-    references = gsc.references
+@gscs_api_blueprint.route('/status/<uuid>', methods=['POST'])
+def status(uuid):
+    status = Gsc.get_or_none(Gsc.uuid == uuid)
 
-    return jsonify([{
-        "ref_id": reference.id,
-        "ref_name": reference.ref_name,
-        "ref_email": reference.ref_email,
-        "reasons_gscf_makes_a_good_partner": reference.reasons_gscf_makes_a_good_partner,
-        "good_match_for_gscf": reference.good_match_for_gscf,
-        "is_approved": reference.is_approved
-    } for reference in references])
+    data = request.json
+
+    is_approved = data.get('is_approved') 
+    is_active = data.get('is_active') 
+
+    if (
+    is_approved != "" or 
+    is_active != ""):
+        status.is_approved = is_approved 
+        status.is_active = is_active 
+
+        if status.save(only=[
+            Gsc.is_approved, 
+            Gsc.is_active,
+            ]):
+
+            return jsonify({
+                "message": "Successfully updated GSCF status!",
+                "status": "success",
+                 "gsc": {
+                    "uuid": status.uuid,
+                    "name": status.name,
+                    "is_approved": status.is_approved,
+                    "is_active": status.is_active
+                 }
+            })
+
+        elif status.errors != 0:
+            return jsonify({
+                "message": [error for error in approve.errors],
+                "status": "failed"
+            })
+    
+    else:
+        return jsonify({
+            "message": "At least on field must be filled",
+            "status": "failed"
+        })
