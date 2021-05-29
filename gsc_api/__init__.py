@@ -1,7 +1,9 @@
 from app import app
 from flask_cors import CORS
+import logging
 
-cors = CORS(app, resources={r"/api/*": {"origins": "https://dreamy-dubinsky-604eb1.netlify.app"}})
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 ## API Routes ##
 from gsc_api.blueprints.admins.views import admins_api_blueprint
