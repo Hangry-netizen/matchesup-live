@@ -3,6 +3,7 @@ from flask_cors import CORS
 import logging
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 ## API Routes ##
 from gsc_api.blueprints.admins.views import admins_api_blueprint
