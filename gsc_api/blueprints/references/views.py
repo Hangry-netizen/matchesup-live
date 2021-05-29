@@ -100,7 +100,7 @@ def update(ref_id):
                     "edit_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/edit"
                     }
     
-            send_email = send_approve_reference_email(to_email=update_reference.ref_email, dynamic_template_data=data)
+            send_email = send_approve_reference_email(to_email=gsc.email, dynamic_template_data=data)
 
             return jsonify({
                 "message": "Successfully updated reference!",
