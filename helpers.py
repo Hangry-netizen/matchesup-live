@@ -5,7 +5,7 @@ from app import app
 
 def send_gsc_consent_email(to_email, dynamic_template_data):
     message = Mail(
-        from_email='noreply@matchesup.com',
+        from_email=('noreply@matchesup.com', 'MatchesUp'),
         to_emails=to_email
         )
     
@@ -23,7 +23,7 @@ def send_gsc_consent_email(to_email, dynamic_template_data):
 
 def send_reference_email(to_email, dynamic_template_data):
     message = Mail(
-        from_email='noreply@matchesup.com',
+        from_email=('noreply@matchesup.com', 'MatchesUp'),
         to_emails=to_email
         )
     
@@ -41,7 +41,7 @@ def send_reference_email(to_email, dynamic_template_data):
 
 def send_approve_reference_email(to_email, dynamic_template_data):
     message = Mail(
-        from_email='noreply@matchesup.com',
+        from_email=('noreply@matchesup.com', 'MatchesUp'),
         to_emails=to_email
         )
     
@@ -59,7 +59,7 @@ def send_approve_reference_email(to_email, dynamic_template_data):
 
 def send_approved_email(to_email, dynamic_template_data):
     message = Mail(
-        from_email='noreply@matchesup.com',
+        from_email=('noreply@matchesup.com', 'MatchesUp'),
         to_emails=to_email
         )
     
