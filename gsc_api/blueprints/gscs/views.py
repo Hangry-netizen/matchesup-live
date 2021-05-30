@@ -284,7 +284,6 @@ def update(uuid):
     want_to_have_kids != "" or
     important_info_to_know != "" or
     alias != "" or
-    ff_email != "" or
     consent != "" or
     social_media_profile_link != "" or 
     preferred_contact_method != "" or 
@@ -323,7 +322,6 @@ def update(uuid):
         update_gsc.want_to_have_kids = want_to_have_kids
         update_gsc.important_info_to_know = important_info_to_know
         update_gsc.alias = alias
-        update_gsc.ff_email = ff_email
         update_gsc.consent = consent
         update_gsc.social_media_profile_link = social_media_profile_link 
         update_gsc.preferred_contact_method = preferred_contact_method 
