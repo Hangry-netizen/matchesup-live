@@ -44,6 +44,7 @@ class Gsc(BaseModel):
     ff_name = pw.CharField()
     is_approved = pw.BooleanField(default=False)
     is_active = pw.BooleanField(default=False)
+    monthly_hellos = pw.IntegerField(default=0)
 
     def validate(self):
         duplicate_email = Gsc.get_or_none(Gsc.email == self.email)
