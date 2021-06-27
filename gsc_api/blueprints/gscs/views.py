@@ -514,49 +514,52 @@ def said_hi(uuid):
     hellos = gsc.said_hi
 
     response = []
+    duplicate_check = []
 
     for hello in hellos:
         hi_recipient = hello.hi_recipient
-        data = {
-            "hello_id": hello.id,
-            "hello_contacted": hello.contacted,
-            "hello_removed": hello.removed,
-            "name": hi_recipient.name,
-            "year_of_birth": hi_recipient.year_of_birth,
-            "height": hi_recipient.height,
-            "languages": hi_recipient.languages, 
-            "nationality": hi_recipient.nationality, 
-            "city": hi_recipient.city, 
-            "country": hi_recipient.country, 
-            "descriptive_words": hi_recipient.descriptive_words,
-            "mbti": hi_recipient.mbti, 
-            "enneagram": hi_recipient.enneagram,
-            "disc": hi_recipient.disc,
-            "strengths_finder": hi_recipient.strengths_finder,
-            "favorite_topics": hi_recipient.favorite_topics,
-            "chill_activities": hi_recipient.chill_activities,
-            "do": hi_recipient.do,
-            "skills_and_talents": hi_recipient.skills_and_talents,
-            "growth_and_development": hi_recipient.growth_and_development,
-            "spiritual_gifts": hi_recipient.spiritual_gifts,
-            "spiritual_maturity": hi_recipient.spiritual_maturity,
-            "church_background": hi_recipient.church_background,
-            "reasons_gscf_makes_a_good_partner": hi_recipient.reasons_gscf_makes_a_good_partner,
-            "good_match_for_gscf": hi_recipient.good_match_for_gscf,
-            "moving_to_a_different_town": hi_recipient.moving_to_a_different_town,
-            "moving_to_a_different_country": hi_recipient.moving_to_a_different_country,
-            "has_been_married_or_has_kids": hi_recipient.has_been_married_or_has_kids,
-            "want_to_have_kids": hi_recipient.want_to_have_kids,
-            "preferred_contact_method": hi_recipient.preferred_contact_method,
-            "contact_info": hi_recipient.contact_info,
-            "important_info_to_know": hi_recipient.important_info_to_know,
-            "alias": hi_recipient.alias,
-            "social_media_profile_link": hi_recipient.social_media_profile_link, 
-            "preferred_contact_method": hi_recipient.preferred_contact_method,
-            "contact_info": hi_recipient.contact_info,
-            "what_is_important_to_me": hi_recipient.what_is_important_to_me
-        }
-        response.append(data)
+        if hello.removed == False:
+            data = {
+                "hello_id": hello.id,
+                "hello_contacted": hello.contacted,
+                "name": hi_recipient.name,
+                "year_of_birth": hi_recipient.year_of_birth,
+                "height": hi_recipient.height,
+                "languages": hi_recipient.languages, 
+                "nationality": hi_recipient.nationality, 
+                "city": hi_recipient.city, 
+                "country": hi_recipient.country, 
+                "descriptive_words": hi_recipient.descriptive_words,
+                "mbti": hi_recipient.mbti, 
+                "enneagram": hi_recipient.enneagram,
+                "disc": hi_recipient.disc,
+                "strengths_finder": hi_recipient.strengths_finder,
+                "favorite_topics": hi_recipient.favorite_topics,
+                "chill_activities": hi_recipient.chill_activities,
+                "do": hi_recipient.do,
+                "skills_and_talents": hi_recipient.skills_and_talents,
+                "growth_and_development": hi_recipient.growth_and_development,
+                "spiritual_gifts": hi_recipient.spiritual_gifts,
+                "spiritual_maturity": hi_recipient.spiritual_maturity,
+                "church_background": hi_recipient.church_background,
+                "reasons_gscf_makes_a_good_partner": hi_recipient.reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": hi_recipient.good_match_for_gscf,
+                "moving_to_a_different_town": hi_recipient.moving_to_a_different_town,
+                "moving_to_a_different_country": hi_recipient.moving_to_a_different_country,
+                "has_been_married_or_has_kids": hi_recipient.has_been_married_or_has_kids,
+                "want_to_have_kids": hi_recipient.want_to_have_kids,
+                "preferred_contact_method": hi_recipient.preferred_contact_method,
+                "contact_info": hi_recipient.contact_info,
+                "important_info_to_know": hi_recipient.important_info_to_know,
+                "alias": hi_recipient.alias,
+                "social_media_profile_link": hi_recipient.social_media_profile_link, 
+                "preferred_contact_method": hi_recipient.preferred_contact_method,
+                "contact_info": hi_recipient.contact_info,
+                "what_is_important_to_me": hi_recipient.what_is_important_to_me
+            }
+            if hi_recipient.id not in duplicate_check:
+                response.append(data)
+                duplicate_check.append(hi_recipient.id)
     
     return jsonify(response)
 
@@ -566,50 +569,196 @@ def hi_recipient(uuid):
     hellos = gsc.hi_recipient
 
     response = []
+    duplicate_check = []
 
     for hello in hellos:
         said_hi = hello.said_hi
-        data = {
-            "hello_id": hello.id,
-            "hello_contacted": hello.contacted,
-            "hello_removed": hello.removed,
-            "name": said_hi.name,
-            "year_of_birth": said_hi.year_of_birth,
-            "height": said_hi.height,
-            "languages": said_hi.languages, 
-            "nationality": said_hi.nationality, 
-            "city": said_hi.city, 
-            "country": said_hi.country, 
-            "descriptive_words": said_hi.descriptive_words,
-            "mbti": said_hi.mbti, 
-            "enneagram": said_hi.enneagram,
-            "disc": said_hi.disc,
-            "strengths_finder": said_hi.strengths_finder,
-            "favorite_topics": said_hi.favorite_topics,
-            "chill_activities": said_hi.chill_activities,
-            "do": said_hi.do,
-            "skills_and_talents": said_hi.skills_and_talents,
-            "growth_and_development": said_hi.growth_and_development,
-            "spiritual_gifts": said_hi.spiritual_gifts,
-            "spiritual_maturity": said_hi.spiritual_maturity,
-            "church_background": said_hi.church_background,
-            "reasons_gscf_makes_a_good_partner": said_hi.reasons_gscf_makes_a_good_partner,
-            "good_match_for_gscf": said_hi.good_match_for_gscf,
-            "moving_to_a_different_town": said_hi.moving_to_a_different_town,
-            "moving_to_a_different_country": said_hi.moving_to_a_different_country,
-            "has_been_married_or_has_kids": said_hi.has_been_married_or_has_kids,
-            "want_to_have_kids": said_hi.want_to_have_kids,
-            "preferred_contact_method": said_hi.preferred_contact_method,
-            "contact_info": said_hi.contact_info,
-            "important_info_to_know": said_hi.important_info_to_know,
-            "alias": said_hi.alias,
-            "social_media_profile_link": said_hi.social_media_profile_link, 
-            "preferred_contact_method": said_hi.preferred_contact_method,
-            "contact_info": said_hi.contact_info,
-            "what_is_important_to_me": said_hi.what_is_important_to_me
-        }
-        response.append(data)
+        if hello.removed == False:
+            data = {
+                "hello_id": hello.id,
+                "hello_contacted": hello.contacted,
+                "name": said_hi.name,
+                "year_of_birth": said_hi.year_of_birth,
+                "height": said_hi.height,
+                "languages": said_hi.languages, 
+                "nationality": said_hi.nationality, 
+                "city": said_hi.city,
+                "country": said_hi.country, 
+                "descriptive_words": said_hi.descriptive_words,
+                "mbti": said_hi.mbti, 
+                "enneagram": said_hi.enneagram,
+                "disc": said_hi.disc,
+                "strengths_finder": said_hi.strengths_finder,
+                "favorite_topics": said_hi.favorite_topics,
+                "chill_activities": said_hi.chill_activities,
+                "do": said_hi.do,
+                "skills_and_talents": said_hi.skills_and_talents,
+                "growth_and_development": said_hi.growth_and_development,
+                "spiritual_gifts": said_hi.spiritual_gifts,
+                "spiritual_maturity": said_hi.spiritual_maturity,
+                "church_background": said_hi.church_background,
+                "reasons_gscf_makes_a_good_partner": said_hi.reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": said_hi.good_match_for_gscf,
+                "moving_to_a_different_town": said_hi.moving_to_a_different_town,
+                "moving_to_a_different_country": said_hi.moving_to_a_different_country,
+                "has_been_married_or_has_kids": said_hi.has_been_married_or_has_kids,
+                "want_to_have_kids": said_hi.want_to_have_kids,
+                "preferred_contact_method": said_hi.preferred_contact_method,
+                "contact_info": said_hi.contact_info,
+                "important_info_to_know": said_hi.important_info_to_know,
+                "alias": said_hi.alias,
+                "social_media_profile_link": said_hi.social_media_profile_link, 
+                "preferred_contact_method": said_hi.preferred_contact_method,
+                "contact_info": said_hi.contact_info,
+                "what_is_important_to_me": said_hi.what_is_important_to_me
+            }
+            if said_hi.id not in duplicate_check:
+                response.append(data)
+                duplicate_check.append(said_hi.id)
     
+    return jsonify(response)
+@gscs_api_blueprint.route('/database-display/<uuid>', methods=["GET"])
+def database_display(uuid):
+    currentGsc = Gsc.get_or_none(Gsc.uuid == uuid)
+    gscs = Gsc.select()
+
+    hi_recipient_hellos = currentGsc.hi_recipient
+    said_hi_hellos = currentGsc.said_hi
+
+    response = []
+    duplicate_check = []
+
+    for gsc in gscs:
+        for hello in said_hi_hellos:
+            if hello.hi_recipient == gsc and hello.removed == False and hello.contacted == False:
+                data = {
+                    "hello_id": hello.id,
+                    "said_hi": True,
+                    "gender": gsc.gender,
+                    "name": gsc.name,
+                    "year_of_birth": gsc.year_of_birth,
+                    "height": gsc.height,
+                    "languages": gsc.languages, 
+                    "nationality": gsc.nationality, 
+                    "city": gsc.city,
+                    "country": gsc.country, 
+                    "descriptive_words": gsc.descriptive_words,
+                    "mbti": gsc.mbti, 
+                    "enneagram": gsc.enneagram,
+                    "disc": gsc.disc,
+                    "strengths_finder": gsc.strengths_finder,
+                    "favorite_topics": gsc.favorite_topics,
+                    "chill_activities": gsc.chill_activities,
+                    "do": gsc.do,
+                    "skills_and_talents": gsc.skills_and_talents,
+                    "growth_and_development": gsc.growth_and_development,
+                    "spiritual_gifts": gsc.spiritual_gifts,
+                    "spiritual_maturity": gsc.spiritual_maturity,
+                    "church_background": gsc.church_background,
+                    "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+                    "good_match_for_gscf": gsc.good_match_for_gscf,
+                    "moving_to_a_different_town": gsc.moving_to_a_different_town,
+                    "moving_to_a_different_country": gsc.moving_to_a_different_country,
+                    "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+                    "want_to_have_kids": gsc.want_to_have_kids,
+                    "preferred_contact_method": gsc.preferred_contact_method,
+                    "contact_info": gsc.contact_info,
+                    "important_info_to_know": gsc.important_info_to_know,
+                    "alias": gsc.alias,
+                    "social_media_profile_link": gsc.social_media_profile_link, 
+                    "preferred_contact_method": gsc.preferred_contact_method,
+                    "contact_info": gsc.contact_info,
+                    "what_is_important_to_me": gsc.what_is_important_to_me
+                }
+                response.append(data)
+                duplicate_check.append(gsc.id)
+        
+        for hello in hi_recipient_hellos:
+            if hello.said_hi == gsc and hello.removed == False and hello.contacted == False:
+                data = {
+                    "hello_id": hello.id,
+                    "said_hi": False,
+                    "gender": gsc.gender,
+                    "name": gsc.name,
+                    "year_of_birth": gsc.year_of_birth,
+                    "height": gsc.height,
+                    "languages": gsc.languages, 
+                    "nationality": gsc.nationality, 
+                    "city": gsc.city,
+                    "country": gsc.country, 
+                    "descriptive_words": gsc.descriptive_words,
+                    "mbti": gsc.mbti, 
+                    "enneagram": gsc.enneagram,
+                    "disc": gsc.disc,
+                    "strengths_finder": gsc.strengths_finder,
+                    "favorite_topics": gsc.favorite_topics,
+                    "chill_activities": gsc.chill_activities,
+                    "do": gsc.do,
+                    "skills_and_talents": gsc.skills_and_talents,
+                    "growth_and_development": gsc.growth_and_development,
+                    "spiritual_gifts": gsc.spiritual_gifts,
+                    "spiritual_maturity": gsc.spiritual_maturity,
+                    "church_background": gsc.church_background,
+                    "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+                    "good_match_for_gscf": gsc.good_match_for_gscf,
+                    "moving_to_a_different_town": gsc.moving_to_a_different_town,
+                    "moving_to_a_different_country": gsc.moving_to_a_different_country,
+                    "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+                    "want_to_have_kids": gsc.want_to_have_kids,
+                    "preferred_contact_method": gsc.preferred_contact_method,
+                    "contact_info": gsc.contact_info,
+                    "important_info_to_know": gsc.important_info_to_know,
+                    "alias": gsc.alias,
+                    "social_media_profile_link": gsc.social_media_profile_link, 
+                    "preferred_contact_method": gsc.preferred_contact_method,
+                    "contact_info": gsc.contact_info,
+                    "what_is_important_to_me": gsc.what_is_important_to_me
+                }
+                if gsc.id not in duplicate_check:
+                    response.append(data)
+                    duplicate_check.append(gsc.id)
+        data = {
+            "said_hi": False,
+            "gender": gsc.gender,
+            "name": gsc.name,
+            "year_of_birth": gsc.year_of_birth,
+            "height": gsc.height,
+            "languages": gsc.languages,
+            "nationality": gsc.nationality, 
+            "city": gsc.city,
+            "country": gsc.country, 
+            "descriptive_words": gsc.descriptive_words,
+            "mbti": gsc.mbti, 
+            "enneagram": gsc.enneagram,
+            "disc": gsc.disc,
+            "strengths_finder": gsc.strengths_finder,
+            "favorite_topics": gsc.favorite_topics,
+            "chill_activities": gsc.chill_activities,
+            "do": gsc.do,
+            "skills_and_talents": gsc.skills_and_talents,
+            "growth_and_development": gsc.growth_and_development,
+            "spiritual_gifts": gsc.spiritual_gifts,
+            "spiritual_maturity": gsc.spiritual_maturity,
+            "church_background": gsc.church_background,
+            "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+            "good_match_for_gscf": gsc.good_match_for_gscf,
+            "moving_to_a_different_town": gsc.moving_to_a_different_town,
+            "moving_to_a_different_country": gsc.moving_to_a_different_country,
+            "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+            "want_to_have_kids": gsc.want_to_have_kids,
+            "preferred_contact_method": gsc.preferred_contact_method,
+            "contact_info": gsc.contact_info,
+            "important_info_to_know": gsc.important_info_to_know,
+            "alias": gsc.alias,
+            "social_media_profile_link": gsc.social_media_profile_link, 
+            "preferred_contact_method": gsc.preferred_contact_method,
+            "contact_info": gsc.contact_info,
+            "what_is_important_to_me": gsc.what_is_important_to_me
+        }
+        if gsc.id not in duplicate_check:
+            response.append(data)
+            duplicate_check.append(gsc.id)
+
     return jsonify(response)
 
 @gscs_api_blueprint.route('/monthly-hellos/<uuid>', methods=['POST'])

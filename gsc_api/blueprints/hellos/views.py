@@ -72,3 +72,19 @@ def remove(id):
                 "message": [error for error in reference.errors],
                 "status": "failed"
             })
+
+@hellos_api_blueprint.route('/delete/<id>', methods=['POST'])
+def delete(id):
+    hello = Hello.get_or_none(Hello.id == id)
+
+    if hello:
+        if hello.delete_instance():
+            return jsonify({
+                "message": "Successfully deleted hello",
+                "status": "success"
+            })
+        else:
+            return jsonify({
+                "message": "Failed to delete hello",
+                "status": "failed"
+            })
