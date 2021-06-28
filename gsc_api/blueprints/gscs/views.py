@@ -635,6 +635,7 @@ def database_display(uuid):
                     data = {
                         "hello_id": hello.id,
                         "said_hi": True,
+                        "id": gsc.id,
                         "gender": gsc.gender,
                         "name": gsc.name,
                         "year_of_birth": gsc.year_of_birth,
@@ -680,6 +681,7 @@ def database_display(uuid):
                     data = {
                         "hello_id": hello.id,
                         "said_hi": False,
+                        "id": gsc.id,
                         "gender": gsc.gender,
                         "name": gsc.name,
                         "year_of_birth": gsc.year_of_birth,
@@ -722,6 +724,7 @@ def database_display(uuid):
         if gsc.is_active:
             data = {
                 "said_hi": False,
+                "id": gsc.id,
                 "gender": gsc.gender,
                 "name": gsc.name,
                 "year_of_birth": gsc.year_of_birth,

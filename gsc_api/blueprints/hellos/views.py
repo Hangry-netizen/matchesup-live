@@ -18,11 +18,20 @@ def create():
         )
     if hello.save():
         hi_recipient = hello.hi_recipient
-        
-        return jsonify({
-            "message": f"You've said hi to {hi_recipient.name}!",
-            "status": "success"
-        })
+        said_hi = hello.said_hi
+        monthly_hellos = said_hi.monthly_hellos - 1
+        said_hi.monthly_hellos = monthly_hellos
+
+        if said_hi.save(only=[Gsc.monthly_hellos]):
+            return jsonify({
+                "message": f"You've said hi to {hi_recipient.name}!",
+                "status": "success"
+            })
+        else:
+            return jsonify({
+                "message": "Failed to set monthly hello limit",
+                "status": "failed"
+            })
     elif hello.errors != 0:
         return jsonify({
             "message": [error for error in reference.errors],
