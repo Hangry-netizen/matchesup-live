@@ -809,6 +809,7 @@ def send_monthly_database():
             email = gsc.email
             template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
             data = {
+                "month": "June",
                 "gscf_name": gsc.name,
                 "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
             }
