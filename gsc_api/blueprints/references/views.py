@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.reference import Reference
 from models.gsc import Gsc
-from helpers import send_reference_email
-from helpers import send_approve_reference_email
+from helpers import sendgrid
 
 references_api_blueprint = Blueprint('references_api',
                              __name__)
@@ -36,13 +35,14 @@ def create():
         )
     if reference.save():
         gsc = reference.gsc
+        template_id = "d-6af1d902e5544dc68eeab4fe99809219"
         data = {
                 "gscf_name": gsc.name,
                 "ref_name": reference.ref_name,
                 "ref_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/{reference.id}/reference/{reference.ref_name}"
             }
 
-        send_email = send_reference_email(to_email=reference.ref_email, dynamic_template_data=data)
+        send_reference_email = sengrid(to_email=reference.ref_email, dynamic_template_data=data, template_id=template_id)
 
         return jsonify({
             "message": "Reference has been submitted successfully.",
@@ -94,13 +94,14 @@ def update(ref_id):
             ]):
 
             gsc = update_reference.gsc
+            template_id = "d-b0df696531cb4b8fb4234b6ff1a05aa0"
             data = {
                     "gscf_name": gsc.name,
                     "ref_name": update_reference.ref_name,
                     "edit_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/edit"
                     }
     
-            send_email = send_approve_reference_email(to_email=gsc.email, dynamic_template_data=data)
+            send_approve_reference_email = sendgrid(to_email=gsc.email, dynamic_template_data=data, template_id=template_id)
 
             return jsonify({
                 "message": "Successfully updated reference!",

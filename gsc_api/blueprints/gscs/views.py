@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.gsc import *
 from models.hello import *
-from helpers import send_gsc_consent_email
-from helpers import send_approved_email
+from helpers import sendgrid
 
 gscs_api_blueprint = Blueprint('gscs_api',
                              __name__)
@@ -132,6 +131,7 @@ def create():
         )
         if gsc.save():
             email = gsc.email
+            template_id="d-fcb0e7483d4448319fa772341765a581"
             data = {
                 "gscf_name": gsc.name,
                 "ff_name": gsc.ff_name,
@@ -140,7 +140,7 @@ def create():
                 "gsc_profile_link": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
             }
 
-            send_email = send_gsc_consent_email(to_email=email, dynamic_template_data=data)
+            send_gsc_consent_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
 
             return jsonify({
                 "message": "Successfully added a new gsc",
@@ -435,12 +435,13 @@ def approve(uuid):
             ]):
 
             email = approve_gsc.email
+            template_id = "d-e0573f50445145e9ba6542744ff4053a"
             data = {
                 "gscf_name": approve_gsc.name,
                 "edit_url": f"www.matchesup.com/good-single-christian-friend/{approve_gsc.uuid}"
             }
 
-            send_email = send_approved_email(to_email=email, dynamic_template_data=data)
+            send_approved_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
 
             return jsonify({
                 "message": "Successfully updated GSCF status!",
