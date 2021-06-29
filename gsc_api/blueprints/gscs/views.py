@@ -797,3 +797,38 @@ def monthly_hellos(uuid):
             "message": "At least on field must be filled",
             "status": "failed"
         })
+
+@gscs_api_blueprint.route('/send-monthly-database', methods=['POST'])
+def send_monthly_database():
+    gscs = Gsc.select()
+
+    response = []
+
+    for gsc in gscs:
+        if gsc.is_active:
+            email = gsc.email
+            template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
+            data = {
+                "gscf_name": gsc.name,
+                "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+            }
+
+            send_june_1_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+            
+            if send_june_1_database:
+                data = {
+                    "message": f"Successfully sent monthly database to {gsc.name}",
+                    "status": "success"
+                }
+                
+                response.append(data)
+
+            else:
+                data = {
+                    "message": f"Failed to send monthly database to {gsc.name}",
+                    "status": "failed"
+                }
+
+                response.append(data)
+
+    return jsonify(response)
