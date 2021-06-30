@@ -635,7 +635,7 @@ def database_display(uuid):
                 if gsc.is_active:
                     data = {
                         "hello_id": hello.id,
-                        "said_hi": True,
+                        "action": "said_hi",
                         "id": gsc.id,
                         "gender": gsc.gender,
                         "name": gsc.name,
@@ -681,7 +681,7 @@ def database_display(uuid):
                 if gsc.is_active:
                     data = {
                         "hello_id": hello.id,
-                        "said_hi": False,
+                        "action": "hi_recipient",
                         "id": gsc.id,
                         "gender": gsc.gender,
                         "name": gsc.name,
@@ -724,7 +724,6 @@ def database_display(uuid):
                         duplicate_check.append(gsc.id)
         if gsc.is_active:
             data = {
-                "said_hi": False,
                 "id": gsc.id,
                 "gender": gsc.gender,
                 "name": gsc.name,
