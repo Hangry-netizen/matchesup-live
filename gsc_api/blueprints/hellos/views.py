@@ -19,9 +19,11 @@ def index():
 
         data = {
             "hello_id": hello.id,
+            "contacted": hello.contacted,
+            "removed": hello.removed,
             "said_hi": said_hi.name,
             "hi_recipient": hi_recipient.name,
-            "hi_recipient": hi_recipient.notification_frequency
+            "hi_recipient_notification_frequency": hi_recipient.notification_frequency
         }
         
         response.append(data)
