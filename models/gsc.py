@@ -1,5 +1,6 @@
 from models.base_model import BaseModel
 import peewee as pw
+import playhouse.postgres_ext as pg
 import uuid
 
 class Gsc(BaseModel):
@@ -44,6 +45,10 @@ class Gsc(BaseModel):
     ff_name = pw.CharField()
     is_approved = pw.BooleanField(default=False)
     is_active = pw.BooleanField(default=False)
+    suggested = pg.ArrayField(pw.IntegerField, default=[], null=True)
+    contacted = pg.ArrayField(pw.IntegerField, default=[], null=True)
+    maybe = pg.ArrayField(pw.IntegerField, default=[], null=True)
+    deleted = pg.ArrayField(pw.IntegerField, default=[], null=True)
     monthly_hellos = pw.IntegerField(default=0)
 
     def validate(self):

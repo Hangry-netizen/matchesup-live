@@ -209,7 +209,11 @@ def show(uuid):
         "is_active": gsc.is_active,
         "ff_name": gsc.ff_name,
         "ff_email": gsc.ff_email,
-        "monthly_hellos": gsc.monthly_hellos
+        "monthly_hellos": gsc.monthly_hellos,
+        "suggested": gsc.suggested,
+        "maybe": gsc.maybe,
+        "contacted": gsc.contacted,
+        "deleted": gsc.deleted
     })
 
 @gscs_api_blueprint.route('/<uuid>', methods=['POST'])
@@ -519,10 +523,11 @@ def said_hi(uuid):
 
     for hello in hellos:
         hi_recipient = hello.hi_recipient
-        if hello.removed == False:
+        if hello.removed == False and hi_recipient.id not in gsc.contacted:
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
+                "id": hi_recipient.id,
                 "name": hi_recipient.name,
                 "year_of_birth": hi_recipient.year_of_birth,
                 "height": hi_recipient.height,
@@ -574,10 +579,11 @@ def hi_recipient(uuid):
 
     for hello in hellos:
         said_hi = hello.said_hi
-        if hello.removed == False:
+        if hello.removed == False and said_hi.id not in gsc.contacted:
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
+                "id": said_hi.id,
                 "name": said_hi.name,
                 "year_of_birth": said_hi.year_of_birth,
                 "height": said_hi.height,
@@ -632,7 +638,7 @@ def database_display(uuid):
     for gsc in gscs:
         for hello in said_hi_hellos:
             if hello.hi_recipient == gsc:
-                if hello.removed == False and hello.contacted == False:
+                if hello.removed == False:
                     if gsc.is_active:
                         data = {
                             "hello_id": hello.id,
@@ -674,14 +680,15 @@ def database_display(uuid):
                             "contact_info": gsc.contact_info,
                             "what_is_important_to_me": gsc.what_is_important_to_me
                         }
-                        response.append(data)
-                        duplicate_check.append(gsc.id)
+                        if gsc.id not in duplicate_check:
+                            response.append(data)
+                            duplicate_check.append(gsc.id)
                 else:
                     duplicate_check.append(gsc.id)
         
         for hello in hi_recipient_hellos:
             if hello.said_hi == gsc:
-                if hello.removed == False and hello.contacted == False:
+                if hello.removed == False:
                     if gsc.is_active:
                         data = {
                             "hello_id": hello.id,
@@ -789,13 +796,13 @@ def monthly_hellos(uuid):
         if gsc.save(only=[Gsc.monthly_hellos]):
 
             return jsonify({
-                "message": f"Successfully updated {gsc.name} monthly hellos!",
+                "message": f"Successfully updated {gsc.name}'s monthly hellos!",
                 "status": "success"
             })
 
-        elif status.errors != 0:
+        elif gsc.errors != 0:
             return jsonify({
-                "message": [error for error in status.errors],
+                "message": [error for error in gsc.errors],
                 "status": "failed"
             })
     
@@ -840,3 +847,266 @@ def send_monthly_database():
                 response.append(data)
 
     return jsonify(response)
+
+@gscs_api_blueprint.route('/suggested/<uuid>', methods=['POST'])
+def append_suggested(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    suggested = data.get('suggested') 
+
+    if suggested:
+        
+        if gsc.suggested:
+            if suggested not in gsc.suggested:
+                gsc.suggested.append(suggested)
+                if gsc.save(only=[Gsc.suggested]):
+                    return jsonify({
+                        "message": f"Successfully updated {gsc.name}'s suggested list!",
+                        "status": "success"
+                    })
+    
+                elif gsc.errors != 0:
+                    return jsonify({
+                        "message": [error for error in gsc.errors],
+                        "status": "failed"
+                    })
+            else:
+                 return jsonify({
+                        "message": f"Failed to append because of duplication",
+                        "status": "failed"
+                    })
+
+        else:
+            gsc.suggested = [suggested]
+            if gsc.save(only=[Gsc.suggested]):
+                return jsonify({
+                    "message": f"Successfully updated {gsc.name}'s suggested list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+    
+    else:
+        return jsonify({
+            "message": "Suggested field is empty",
+            "status": "failed"
+        })
+
+@gscs_api_blueprint.route('/maybe/<uuid>', methods=['POST'])
+def append_maybe(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    maybe = data.get('maybe') 
+
+    if maybe:
+        
+        if gsc.maybe:
+            if maybe not in gsc.maybe:
+                gsc.maybe.append(maybe)
+                if gsc.save(only=[Gsc.maybe]):
+                    return jsonify({
+                        "message": f"Successfully updated {gsc.name}'s maybe list!",
+                        "status": "success"
+                    })
+    
+                elif gsc.errors != 0:
+                    return jsonify({
+                        "message": [error for error in gsc.errors],
+                        "status": "failed"
+                    })
+            else:
+                return jsonify({
+                       "message": f"Failed to append because of duplication",
+                       "status": "failed"
+                   })
+
+        else:
+            gsc.maybe = [maybe]
+            if gsc.save(only=[Gsc.maybe]):
+                return jsonify({
+                    "message": f"Successfully updated {gsc.name}'s maybe list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+    
+    else:
+        return jsonify({
+            "message": "Maybe field is empty",
+            "status": "failed"
+        })
+
+@gscs_api_blueprint.route('/contacted/<uuid>', methods=['POST'])
+def append_contacted(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    contacted = data.get('contacted') 
+
+    if contacted:
+        
+        if gsc.contacted:
+            if contacted not in gsc.contacted:
+                gsc.contacted.append(contacted)
+                if gsc.save(only=[Gsc.contacted]):
+                    return jsonify({
+                        "message": f"Successfully updated {gsc.name}'s contacted list!",
+                        "status": "success"
+                    })
+    
+                elif gsc.errors != 0:
+                    return jsonify({
+                        "message": [error for error in gsc.errors],
+                        "status": "failed"
+                    })
+            else:
+                 return jsonify({
+                        "message": f"Failed to append because of duplication",
+                        "status": "failed"
+                    })        
+
+        else:
+            gsc.contacted = [contacted]
+            if gsc.save(only=[Gsc.contacted]):
+                return jsonify({
+                    "message": f"Successfully updated {gsc.name}'s contacted list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+    
+    else:
+        return jsonify({
+            "message": "Contacted field is empty",
+            "status": "failed"
+        })
+
+@gscs_api_blueprint.route('/remove-suggested/<uuid>', methods=['POST'])
+def remove_suggested(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    remove_suggested = data.get('remove-suggested') 
+
+    if remove_suggested:
+        if gsc.suggested:
+            gsc.suggested.remove(remove_suggested)
+            if gsc.save(only=[Gsc.suggested]):
+                return jsonify({
+                    "message": f"Successfully removed suggestion from {gsc.name}'s suggestion list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+
+        else:
+            return jsonify({
+                "message": f"Suggestion list is empty",
+                "status": "failed"
+            })
+
+    else:
+        return jsonify({
+            "message": "Remove-suggested field is empty",
+            "status": "failed"
+        })
+
+@gscs_api_blueprint.route('/remove-maybe/<uuid>', methods=['POST'])
+def remove_maybe(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    remove_maybe = data.get('remove-maybe') 
+
+    if remove_maybe:
+        if gsc.maybe:
+            gsc.maybe.remove(remove_maybe)
+            if gsc.save(only=[Gsc.maybe]):
+                return jsonify({
+                    "message": f"Successfully removed suggestion from {gsc.name}'s maybe list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+
+        else:
+            return jsonify({
+                "message": f"Maybe list is empty",
+                "status": "failed"
+            })
+
+    else:
+        return jsonify({
+            "message": "Remove-maybe field is empty",
+            "status": "failed"
+        })
+
+@gscs_api_blueprint.route('/delete-contacted/<uuid>', methods=['POST'])
+def remove_contacted(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    delete_contacted = data.get('delete-contacted') 
+
+    if delete_contacted:
+        if gsc.deleted:
+            gsc.deleted.append(delete_contacted)
+            if gsc.save(only=[Gsc.deleted]):
+                return jsonify({
+                    "message": f"Successfully deleted from {gsc.name}'s contacted list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+
+        else:
+            gsc.deleted = [delete_contacted]
+            if gsc.save(only=[Gsc.deleted]):
+                return jsonify({
+                    "message": f"Successfully removed suggestion from {gsc.name}'s contacted list!",
+                    "status": "success"
+                })
+
+            elif gsc.errors != 0:
+                return jsonify({
+                    "message": [error for error in gsc.errors],
+                    "status": "failed"
+                })
+
+    else:
+        return jsonify({
+            "message": "Remove-contacted field is empty",
+            "status": "failed"
+        })

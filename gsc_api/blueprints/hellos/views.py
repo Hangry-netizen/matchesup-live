@@ -46,7 +46,28 @@ def create():
         if hello.save():
             hi_recipient = hello.hi_recipient
             said_hi = hello.said_hi
+
+            if said_hi.suggested:
+                if hi_recipient.id in said_hi.suggested:
+                    said_hi.suggested.remove(hi_recipient.id)
+                    said_hi.save(only=[Gsc.suggested])
             
+            if said_hi.maybe:
+                if hi_recipient.id in said_hi.maybe:
+                    said_hi.maybe.remove(hi_recipient.id)
+                    said_hi.save(only=[Gsc.maybe])
+            
+            if hi_recipient.suggested:
+                if said_hi.id in hi_recipient.suggested:
+                    hi_recipient.suggested.remove(said_hi.id)
+                    hi_recipient.save(only=[Gsc.suggested])
+            
+            if hi_recipient.maybe:
+                if said_hi.id in hi_recipient.maybe:
+                    hi_recipient.maybe.remove(said_hi.id)
+                    hi_recipient.save(only=[Gsc.maybe])
+
+
             monthly_hellos = said_hi.monthly_hellos - 1
             said_hi.monthly_hellos = monthly_hellos
     
