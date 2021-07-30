@@ -523,7 +523,7 @@ def said_hi(uuid):
 
     for hello in hellos:
         hi_recipient = hello.hi_recipient
-        if hello.removed == False and hi_recipient.id not in gsc.contacted:
+        if hello.removed == False:
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
@@ -579,7 +579,7 @@ def hi_recipient(uuid):
 
     for hello in hellos:
         said_hi = hello.said_hi
-        if hello.removed == False and said_hi.id not in gsc.contacted:
+        if hello.removed == False:
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
