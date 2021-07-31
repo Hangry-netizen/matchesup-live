@@ -39,7 +39,7 @@ def create():
         data = {
                 "gscf_name": gsc.name,
                 "ref_name": reference.ref_name,
-                "ref_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/{reference.id}/reference/{reference.ref_name}"
+                "ref_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/{reference.id}/reference/{reference.ref_name}"
             }
 
         send_reference_email = sengrid(to_email=reference.ref_email, dynamic_template_data=data, template_id=template_id)
@@ -98,7 +98,7 @@ def update(ref_id):
             data = {
                     "gscf_name": gsc.name,
                     "ref_name": update_reference.ref_name,
-                    "edit_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/edit"
+                    "edit_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/edit"
                     }
     
             send_approve_reference_email = sendgrid(to_email=gsc.email, dynamic_template_data=data, template_id=template_id)

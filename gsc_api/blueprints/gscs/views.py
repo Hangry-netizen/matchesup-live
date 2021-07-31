@@ -136,8 +136,8 @@ def create():
                 "gscf_name": gsc.name,
                 "ff_name": gsc.ff_name,
                 "ff_email": gsc.ff_email,
-                "consent_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}/consent",
-                "gsc_profile_link": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+                "consent_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/consent",
+                "gsc_profile_link": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
             }
 
             send_gsc_consent_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
@@ -442,7 +442,7 @@ def approve(uuid):
             template_id = "d-e0573f50445145e9ba6542744ff4053a"
             data = {
                 "gscf_name": approve_gsc.name,
-                "edit_url": f"www.matchesup.com/good-single-christian-friend/{approve_gsc.uuid}"
+                "edit_url": f"https://www.matchesup.com/good-single-christian-friend/{approve_gsc.uuid}"
             }
 
             send_approved_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
@@ -899,7 +899,7 @@ def send_gsc_monthly_database():
                     template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
                     data = {
                         "gscf_name": gsc.name,
-                        "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+                        "database_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
                     }
         
                     send_monthly_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)

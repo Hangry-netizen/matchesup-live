@@ -80,7 +80,7 @@ def create():
                     data = {
                         "gscf_name": hi_recipient.name,
                         "ff_name": hi_recipient.ff_name,
-                        "hello_page_url": f"www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
+                        "hello_page_url": f"https://www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
                     }
                     
                     send_email_to_gsc = sendgrid(to_email=gsc_email, dynamic_template_data=data, template_id=hello_notification_for_gsc_template_id)
@@ -181,7 +181,7 @@ def notification(id):
                     data = {
                         "gscf_name": hi_recipient.name,
                         "ff_name": hi_recipient.ff_name,
-                        "hello_page_url": f"www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
+                        "hello_page_url": f"https://www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
                     }
                     
                     send_email_to_gsc = sendgrid(to_email=gsc_email, dynamic_template_data=data, template_id=hello_notification_for_gsc_template_id)
