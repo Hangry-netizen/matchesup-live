@@ -880,8 +880,8 @@ def monthly_hellos(uuid):
             "status": "failed"
         })
 
-@gscs_api_blueprint.route('/send-monthly-database', methods=['POST'])
-def send_monthly_database():
+@gscs_api_blueprint.route('/send-gsc-monthly-database', methods=['POST'])
+def send_gsc_monthly_database():
     gscs = Gsc.select()
 
     response = []
@@ -902,9 +902,9 @@ def send_monthly_database():
                         "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
                     }
         
-                    send_june_1_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+                    send_monthly_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
                     
-                    if send_june_1_database:
+                    if send_monthly_database:
                         data = {
                             "message": f"Successfully sent monthly database to {gsc.name}",
                             "status": "success"
@@ -921,6 +921,43 @@ def send_monthly_database():
                         response.append(data)
         
         return jsonify(response)
+
+@gscs_api_blueprint.route('/send-ff-monthly-email', methods=['POST'])
+def send_ff_monthly_email():
+    gscs = Gsc.select()
+
+    response = []
+
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.is_active and gsc.ff_email not in duplicate_check:
+            email = gsc.ff_email
+            template_id = "d-2e75b4a841eb4f8daf8cc426ea5f7c6c"
+            data = {
+                "ff_name": gsc.ff_name
+            }
+
+            send_ff_monthly_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+            
+            if send_ff_monthly_email:
+                data = {
+                    "message": f"Successfully sent monthly email to {gsc.ff_name} at {gsc.ff_email}",
+                    "status": "success"
+                }
+                
+                response.append(data)
+                duplicate_check.append(gsc.ff_email)
+
+            else:
+                data = {
+                    "message": f"Failed to send monthly email to {gsc.ff_name} at {gsc.ff_email}",
+                    "status": "failed"
+                }
+
+                response.append(data)
+    
+    return jsonify(response)
 
 @gscs_api_blueprint.route('/suggested/<uuid>', methods=['POST'])
 def append_suggested(uuid):
