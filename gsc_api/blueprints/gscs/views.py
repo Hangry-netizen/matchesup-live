@@ -880,8 +880,57 @@ def monthly_hellos(uuid):
             "status": "failed"
         })
 
-@gscs_api_blueprint.route('/send-gsc-monthly-database', methods=['POST'])
-def send_gsc_monthly_database():
+@gscs_api_blueprint.route('/send-database/<uuid>', methods=['POST'])
+def send_database(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    monthly_hellos = data.get('monthly_hellos') 
+
+    if (monthly_hellos != ""):
+        if gsc.is_active:
+            gsc.monthly_hellos = monthly_hellos
+            if gsc.save(only=[Gsc.monthly_hellos]):
+                email = gsc.email
+                template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
+                data = {
+                    "gscf_name": gsc.name,
+                    "database_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+                }
+    
+                send_monthly_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+                
+                if send_monthly_database:
+                    return jsonify({
+                        "message": f"Successfully sent monthly database to {gsc.name}",
+                        "status": "success"
+                    })
+                        
+                else:
+                    return jsonify({
+                        "message": f"Failed to send monthly database to {gsc.name}",
+                        "status": "failed"
+                    })
+            else:
+                return jsonify({
+                    "message": "Failed to save monthly hellos",
+                    "status": "failed"
+                })
+        else:
+            return jsonify({
+                "message": "GSC is inactive",
+                "status": "failed"
+            })
+    else:
+        return jsonify({
+            "message": "monthly_hellos field is empty",
+            "status": "failed"
+        })
+
+
+@gscs_api_blueprint.route('/send-gscs-monthly-database', methods=['POST'])
+def send_gscs_monthly_database():
     gscs = Gsc.select()
 
     response = []
@@ -922,8 +971,8 @@ def send_gsc_monthly_database():
         
         return jsonify(response)
 
-@gscs_api_blueprint.route('/send-ff-monthly-email', methods=['POST'])
-def send_ff_monthly_email():
+@gscs_api_blueprint.route('/send-ffs-monthly-email', methods=['POST'])
+def send_ffs_monthly_email():
     gscs = Gsc.select()
 
     response = []
