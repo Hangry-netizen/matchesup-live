@@ -640,6 +640,28 @@ def database_display(uuid):
             if hello.hi_recipient == gsc:
                 if hello.removed == False:
                     if gsc.is_active:
+                        reasons_gscf_makes_a_good_partner = ""
+                        good_match_for_gscf = ""
+                        if gsc.references:
+                            refs = gsc.references
+                            for ref in refs:
+                                if ref.is_approved:
+                                    if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
+                                        reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
+                                        good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                                        reasons_gscf_makes_a_good_partner.strip()
+                                        good_match_for_gscf.strip()
+                            
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+                        else:
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+
                         data = {
                             "hello_id": hello.id,
                             "action": "said_hi",
@@ -665,8 +687,8 @@ def database_display(uuid):
                             "spiritual_gifts": gsc.spiritual_gifts,
                             "spiritual_maturity": gsc.spiritual_maturity,
                             "church_background": gsc.church_background,
-                            "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
-                            "good_match_for_gscf": gsc.good_match_for_gscf,
+                            "reasons_gscf_makes_a_good_partner": reasons_gscf_makes_a_good_partner,
+                            "good_match_for_gscf": good_match_for_gscf,
                             "moving_to_a_different_town": gsc.moving_to_a_different_town,
                             "moving_to_a_different_country": gsc.moving_to_a_different_country,
                             "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
@@ -690,6 +712,29 @@ def database_display(uuid):
             if hello.said_hi == gsc:
                 if hello.removed == False:
                     if gsc.is_active:
+                        reasons_gscf_makes_a_good_partner = ""
+                        good_match_for_gscf = ""
+
+                        if gsc.references:
+                            refs = gsc.references
+                            for ref in refs:
+                                if ref.is_approved:
+                                    if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
+                                        reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
+                                        good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                                        reasons_gscf_makes_a_good_partner.strip()
+                                        good_match_for_gscf.strip()
+                            
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+                        else:
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+
                         data = {
                             "hello_id": hello.id,
                             "action": "hi_recipient",
@@ -715,8 +760,8 @@ def database_display(uuid):
                             "spiritual_gifts": gsc.spiritual_gifts,
                             "spiritual_maturity": gsc.spiritual_maturity,
                             "church_background": gsc.church_background,
-                            "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
-                            "good_match_for_gscf": gsc.good_match_for_gscf,
+                            "reasons_gscf_makes_a_good_partner": reasons_gscf_makes_a_good_partner,
+                            "good_match_for_gscf": good_match_for_gscf,
                             "moving_to_a_different_town": gsc.moving_to_a_different_town,
                             "moving_to_a_different_country": gsc.moving_to_a_different_country,
                             "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
@@ -737,7 +782,30 @@ def database_display(uuid):
                     if gsc.id not in duplicate_check:
                             duplicate_check.append(gsc.id)
             
-        if gsc.is_active:
+        if gsc.is_active and gsc.id not in duplicate_check:
+            reasons_gscf_makes_a_good_partner = ""
+            good_match_for_gscf = ""
+
+            if gsc.references:
+                refs = gsc.references
+                for ref in refs:
+                    if ref.is_approved:
+                        if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+                
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+            else:
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+
             data = {
                 "id": gsc.id,
                 "gender": gsc.gender,
@@ -761,8 +829,8 @@ def database_display(uuid):
                 "spiritual_gifts": gsc.spiritual_gifts,
                 "spiritual_maturity": gsc.spiritual_maturity,
                 "church_background": gsc.church_background,
-                "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
-                "good_match_for_gscf": gsc.good_match_for_gscf,
+                "reasons_gscf_makes_a_good_partner": reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": good_match_for_gscf,
                 "moving_to_a_different_town": gsc.moving_to_a_different_town,
                 "moving_to_a_different_country": gsc.moving_to_a_different_country,
                 "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
@@ -818,35 +886,41 @@ def send_monthly_database():
 
     response = []
 
-    for gsc in gscs:
-        if gsc.is_active:
-            email = gsc.email
-            template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
-            data = {
-                "month": "June",
-                "gscf_name": gsc.name,
-                "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
-            }
+    data = request.json
 
-            send_june_1_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
-            
-            if send_june_1_database:
-                data = {
-                    "message": f"Successfully sent monthly database to {gsc.name}",
-                    "status": "success"
-                }
-                
-                response.append(data)
+    monthly_hellos = data.get('monthly_hellos') 
 
-            else:
-                data = {
-                    "message": f"Failed to send monthly database to {gsc.name}",
-                    "status": "failed"
-                }
-
-                response.append(data)
-
-    return jsonify(response)
+    if (monthly_hellos != ""):
+        for gsc in gscs:
+            if gsc.is_active:
+                gsc.monthly_hellos = monthly_hellos
+                if gsc.save(only=[Gsc.monthly_hellos]):
+                    email = gsc.email
+                    template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
+                    data = {
+                        "gscf_name": gsc.name,
+                        "database_url": f"www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+                    }
+        
+                    send_june_1_database = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+                    
+                    if send_june_1_database:
+                        data = {
+                            "message": f"Successfully sent monthly database to {gsc.name}",
+                            "status": "success"
+                        }
+                        
+                        response.append(data)
+        
+                    else:
+                        data = {
+                            "message": f"Failed to send monthly database to {gsc.name}",
+                            "status": "failed"
+                        }
+        
+                        response.append(data)
+        
+        return jsonify(response)
 
 @gscs_api_blueprint.route('/suggested/<uuid>', methods=['POST'])
 def append_suggested(uuid):
