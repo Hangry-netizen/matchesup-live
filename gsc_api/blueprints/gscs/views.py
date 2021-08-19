@@ -166,55 +166,63 @@ def create():
 def show(uuid):
     gsc = Gsc.get_or_none(Gsc.uuid == uuid)
 
-    return jsonify({
-        "uuid": gsc.uuid,
-        "id": gsc.id,
-        "name": gsc.name,
-        "email": gsc.email,
-        "gender": gsc.gender,
-        "year_of_birth": gsc.year_of_birth,
-        "height": gsc.height,
-        "languages": gsc.languages,
-        "nationality": gsc.nationality,
-        "city": gsc.city,
-        "country": gsc.country,
-        "descriptive_words": gsc.descriptive_words,
-        "mbti": gsc.mbti,
-        "enneagram": gsc.enneagram,
-        "disc": gsc.disc,
-        "strengths_finder": gsc.strengths_finder,
-        "favorite_topics": gsc.favorite_topics,
-        "chill_activities": gsc.chill_activities,
-        "do": gsc.do,
-        "skills_and_talents": gsc.skills_and_talents,
-        "growth_and_development": gsc.growth_and_development,
-        "spiritual_gifts": gsc.spiritual_gifts,
-        "spiritual_maturity": gsc.spiritual_maturity,
-        "church_background": gsc.church_background,
-        "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
-        "good_match_for_gscf": gsc.good_match_for_gscf,
-        "moving_to_a_different_town": gsc.moving_to_a_different_town,
-        "moving_to_a_different_country": gsc.moving_to_a_different_country,
-        "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
-        "want_to_have_kids": gsc.want_to_have_kids,
-        "important_info_to_know": gsc.important_info_to_know,
-        "alias": gsc.alias,
-        "consent": gsc.consent,
-        "social_media_profile_link": gsc.social_media_profile_link,
-        "preferred_contact_method": gsc.preferred_contact_method,
-        "contact_info": gsc.contact_info,
-        "notification_frequency": gsc.notification_frequency,
-        "what_is_important_to_me": gsc.what_is_important_to_me,
-        "is_approved": gsc.is_approved,
-        "is_active": gsc.is_active,
-        "ff_name": gsc.ff_name,
-        "ff_email": gsc.ff_email,
-        "monthly_hellos": gsc.monthly_hellos,
-        "suggested": gsc.suggested,
-        "maybe": gsc.maybe,
-        "contacted": gsc.contacted,
-        "deleted": gsc.deleted
-    })
+    if gsc:
+        return jsonify({
+            "uuid": gsc.uuid,
+            "id": gsc.id,
+            "name": gsc.name,
+            "email": gsc.email,
+            "gender": gsc.gender,
+            "year_of_birth": gsc.year_of_birth,
+            "height": gsc.height,
+            "languages": gsc.languages,
+            "nationality": gsc.nationality,
+            "city": gsc.city,
+            "country": gsc.country,
+            "descriptive_words": gsc.descriptive_words,
+            "mbti": gsc.mbti,
+            "enneagram": gsc.enneagram,
+            "disc": gsc.disc,
+            "strengths_finder": gsc.strengths_finder,
+            "favorite_topics": gsc.favorite_topics,
+            "chill_activities": gsc.chill_activities,
+            "do": gsc.do,
+            "skills_and_talents": gsc.skills_and_talents,
+            "growth_and_development": gsc.growth_and_development,
+            "spiritual_gifts": gsc.spiritual_gifts,
+            "spiritual_maturity": gsc.spiritual_maturity,
+            "church_background": gsc.church_background,
+            "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+            "good_match_for_gscf": gsc.good_match_for_gscf,
+            "moving_to_a_different_town": gsc.moving_to_a_different_town,
+            "moving_to_a_different_country": gsc.moving_to_a_different_country,
+            "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+            "want_to_have_kids": gsc.want_to_have_kids,
+            "important_info_to_know": gsc.important_info_to_know,
+            "alias": gsc.alias,
+            "consent": gsc.consent,
+            "social_media_profile_link": gsc.social_media_profile_link,
+            "preferred_contact_method": gsc.preferred_contact_method,
+            "contact_info": gsc.contact_info,
+            "notification_frequency": gsc.notification_frequency,
+            "what_is_important_to_me": gsc.what_is_important_to_me,
+            "is_approved": gsc.is_approved,
+            "is_active": gsc.is_active,
+            "is_activated": gsc.is_activated,
+            "ff_name": gsc.ff_name,
+            "ff_email": gsc.ff_email,
+            "monthly_hellos": gsc.monthly_hellos,
+            "suggested": gsc.suggested,
+            "maybe": gsc.maybe,
+            "contacted": gsc.contacted,
+            "deleted": gsc.deleted
+        })
+
+    else:
+        return jsonify({
+            "message": "There is no such GSC",
+            "status":"failed"
+        })
 
 @gscs_api_blueprint.route('/<uuid>', methods=['POST'])
 def update(uuid):
@@ -425,17 +433,13 @@ def approve(uuid):
     data = request.json
 
     is_approved = data.get('is_approved') 
-    is_active = data.get('is_active') 
 
     if (
-    is_approved or 
-    is_active):
+    is_approved
         approve_gsc.is_approved = is_approved 
-        approve_gsc.is_active = is_active 
 
         if approve_gsc.save(only=[
-            Gsc.is_approved, 
-            Gsc.is_active,
+            Gsc.is_approved
             ]):
 
             email = approve_gsc.email
@@ -453,8 +457,7 @@ def approve(uuid):
                 "gsc": {
                     "uuid": approve_gsc.uuid,
                     "name": approve_gsc.name,
-                    "is_approved": approve_gsc.is_approved,
-                    "is_active": approve_gsc.is_active
+                    "is_approved": approve_gsc.is_approved
                 }
             })
 
@@ -477,17 +480,21 @@ def status(uuid):
     data = request.json
 
     is_approved = data.get('is_approved') 
-    is_active = data.get('is_active') 
+    is_active = data.get('is_active')
+    is_activated = data.get('is-activated')
 
     if (
     is_approved != "" or 
-    is_active != ""):
+    is_active != "" or
+    is_activated != ""):
         status.is_approved = is_approved 
         status.is_active = is_active 
+        status.is_activated = is_activated
 
         if status.save(only=[
             Gsc.is_approved, 
             Gsc.is_active,
+            Gsc.is_activated
             ]):
 
             return jsonify({
@@ -497,7 +504,8 @@ def status(uuid):
                     "uuid": status.uuid,
                     "name": status.name,
                     "is_approved": status.is_approved,
-                    "is_active": status.is_active
+                    "is_active": status.is_active,
+                    "is_activated": status.is_activated
                  }
             })
 
@@ -1273,7 +1281,7 @@ def remove_contacted(uuid):
 
 
 @gscs_api_blueprint.route('/active-status/toggle/<id>', methods=['POST'])
-def toggle_active(uuid):
+def toggle_active(id):
     gsc = Gsc.get_or_none(Gsc.id == id)
 
     if gsc:
@@ -1282,6 +1290,7 @@ def toggle_active(uuid):
         if gsc.save(only=[Gsc.is_active]):
             return jsonify({
                 "message": f"Successfully toggled {gsc.name}'s is_active status to {gsc.is_active}!",
+                "active": gsc.is_active,
                 "status": "success"
                 })
     
@@ -1308,7 +1317,7 @@ def delete(id):
             })
         else:
             return jsonify({
-                "message": f"Failed to delete {gsc.name} as a gsc",
+                "message": f"Failed to delete {gsc.name}'s profile",
                 "status": "failed"
             })
     else:
@@ -1323,7 +1332,8 @@ def activate(id):
 
     if gsc:
         gsc.is_activated = True
-        if gsc.save(only=[Gsc.is_activated]):
+        gsc.is_active = True
+        if gsc.save(only=[Gsc.is_activated, Gsc.is_active]):
             return jsonify({
                 "message": f"Successfully activated {gsc.name} as a gsc",
                 "status": "success"
