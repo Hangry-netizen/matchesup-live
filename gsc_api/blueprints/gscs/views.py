@@ -434,14 +434,10 @@ def approve(uuid):
 
     is_approved = data.get('is_approved') 
 
-    if (
-    is_approved
+    if is_approved:
         approve_gsc.is_approved = is_approved 
 
-        if approve_gsc.save(only=[
-            Gsc.is_approved
-            ]):
-
+        if approve_gsc.save(only=[Gsc.is_approved]):
             email = approve_gsc.email
             template_id = "d-e0573f50445145e9ba6542744ff4053a"
             data = {
