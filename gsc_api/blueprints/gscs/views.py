@@ -1270,3 +1270,22 @@ def remove_contacted(uuid):
             "message": "Remove-contacted field is empty",
             "status": "failed"
         })
+        
+
+@gscs_api_blueprint.route('/active-status/toggle/<uuid>', methods=['POST'])
+def toggle_active(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    gsc.is_active = not gsc.is_active
+
+    if gsc.save(only=[Gsc.is_active]):
+        return jsonify({
+            "message": f"Successfully toggled {gsc.name}'s is_active status to {gsc.is_active}!",
+            "status": "success"
+            })
+
+    else:
+        return jsonify({
+            "message": f"Failed to toggle {gsc.name} is_active status",
+            "status": "failed"
+        })
