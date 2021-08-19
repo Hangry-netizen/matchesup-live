@@ -45,6 +45,7 @@ class Gsc(BaseModel):
     ff_name = pw.CharField()
     is_approved = pw.BooleanField(default=False)
     is_active = pw.BooleanField(default=False)
+    is_activated = pw.BooleanField(default=False)
     suggested = pg.ArrayField(pw.IntegerField, default=[], null=True)
     contacted = pg.ArrayField(pw.IntegerField, default=[], null=True)
     maybe = pg.ArrayField(pw.IntegerField, default=[], null=True)

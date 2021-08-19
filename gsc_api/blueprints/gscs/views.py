@@ -1272,9 +1272,9 @@ def remove_contacted(uuid):
         })
 
 
-@gscs_api_blueprint.route('/active-status/toggle/<uuid>', methods=['POST'])
+@gscs_api_blueprint.route('/active-status/toggle/<id>', methods=['POST'])
 def toggle_active(uuid):
-    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+    gsc = Gsc.get_or_none(Gsc.id == id)
 
     if gsc:
         gsc.is_active = not gsc.is_active
@@ -1296,9 +1296,9 @@ def toggle_active(uuid):
                 "status": "failed"
             })
 
-@gscs_api_blueprint.route('/delete/<uuid>', methods=['POST'])
-def delete(uuid):
-    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+@gscs_api_blueprint.route('/delete/<id>', methods=['POST'])
+def delete(id):
+    gsc = Gsc.get_or_none(Gsc.id == id)
 
     if gsc:
         if gsc.delete_instance():
@@ -1309,6 +1309,28 @@ def delete(uuid):
         else:
             return jsonify({
                 "message": f"Failed to delete {gsc.name} as a gsc",
+                "status": "failed"
+            })
+    else:
+        return jsonify({
+                "message": f"There is no such gsc",
+                "status": "failed"
+            })
+
+@gscs_api_blueprint.route('/activate/<id>', methods=['POST'])
+def activate(id):
+    gsc = Gsc.get_or_none(Gsc.id == id)
+
+    if gsc:
+        gsc.is_activated = True
+        if gsc.save(only=[Gsc.is_activated]):
+            return jsonify({
+                "message": f"Successfully activated {gsc.name} as a gsc",
+                "status": "success"
+            })
+        else:
+            return jsonify({
+                "message": f"Failed to activate {gsc.name} as a gsc",
                 "status": "failed"
             })
     else:
