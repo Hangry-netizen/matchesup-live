@@ -50,6 +50,7 @@ def index():
         "what_is_important_to_me": gsc.what_is_important_to_me,
         "is_approved": gsc.is_approved,
         "is_active": gsc.is_active,
+        "is_activated": gsc.is_activated,
         "ff_name": gsc.ff_name,
         "ff_email": gsc.ff_email,
         "monthly_hellos": gsc.monthly_hellos
@@ -477,7 +478,7 @@ def status(uuid):
 
     is_approved = data.get('is_approved') 
     is_active = data.get('is_active')
-    is_activated = data.get('is-activated')
+    is_activated = data.get('is_activated')
 
     if (
     is_approved != "" or 
