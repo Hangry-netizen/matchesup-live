@@ -65,17 +65,7 @@ def create():
     name = data.get('name')
     email = data.get('email')
     gender = data.get('gender')
-    year_of_birth = data.get('year_of_birth')
-    height = data.get('height')
-    languages = data.get('languages')
-    nationality = data.get('nationality')
-    city = data.get('city')
-    country = data.get('country')
     descriptive_words = data.get('descriptive_words')
-    mbti = data.get('mbti')
-    enneagram = data.get('enneagram')
-    disc = data.get('disc')
-    strengths_finder = data.get('strengths_finder')
     favorite_topics = data.get('favorite_topics')
     chill_activities = data.get('chill_activities')
     do = data.get('do')
@@ -83,11 +73,8 @@ def create():
     growth_and_development = data.get('growth_and_development')
     spiritual_gifts = data.get('spiritual_gifts')
     spiritual_maturity = data.get('spiritual_maturity')
-    church_background = data.get('church_background')
     reasons_gscf_makes_a_good_partner = data.get('reasons_gscf_makes_a_good_partner')
     good_match_for_gscf = data.get('good_match_for_gscf')
-    moving_to_a_different_town = data.get('moving_to_a_different_town')
-    moving_to_a_different_country = data.get('moving_to_a_different_country')
     has_been_married_or_has_kids = data.get('has_been_married_or_has_kids')
     want_to_have_kids = data.get('want_to_have_kids')
     important_info_to_know = data.get('important_info_to_know')
@@ -100,17 +87,7 @@ def create():
                 name = name,
                 email = email,
                 gender = gender,
-                year_of_birth = year_of_birth,
-                height = height,
-                languages = languages,
-                nationality = nationality,
-                city = city,
-                country = country,
                 descriptive_words = descriptive_words,
-                mbti = mbti,
-                enneagram = enneagram,
-                disc = disc,
-                strengths_finder = strengths_finder,
                 favorite_topics = favorite_topics,
                 chill_activities = chill_activities,
                 do = do,
@@ -118,11 +95,8 @@ def create():
                 growth_and_development = growth_and_development,
                 spiritual_gifts = spiritual_gifts,
                 spiritual_maturity = spiritual_maturity,
-                church_background = church_background,
                 reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner,
                 good_match_for_gscf = good_match_for_gscf,
-                moving_to_a_different_town = moving_to_a_different_town,
-                moving_to_a_different_country = moving_to_a_different_country,
                 has_been_married_or_has_kids = has_been_married_or_has_kids,
                 want_to_have_kids = want_to_have_kids,
                 important_info_to_know = important_info_to_know,
@@ -376,11 +350,24 @@ def consent(uuid):
     data = request.json
 
     consent = data.get('consent')
+    year_of_birth = data.get('year_of_birth')
+    height = data.get('height')
+    languages = data.get('languages')
+    church_background = data.get('church_background')
+    nationality = data.get('nationality')
+    city = data.get('city')
+    country = data.get('country')
+    moving_to_a_different_town = data.get('moving_to_a_different_town')
+    moving_to_a_different_country = data.get('moving_to_a_different_country')
     social_media_profile_link = data.get('social_media_profile_link') 
     preferred_contact_method = data.get('preferred_contact_method') 
     contact_info = data.get('contact_info') 
     notification_frequency = data.get('notification_frequency')
     what_is_important_to_me = data.get('what_is_important_to_me') 
+    mbti = data.get('mbti')
+    enneagram = data.get('enneagram')
+    disc = data.get('disc')
+    strengths_finder = data.get('strengths_finder')
 
     if (
     consent != "" or
@@ -390,19 +377,45 @@ def consent(uuid):
     notification_frequency != "" or
     what_is_important_to_me != ""):
         update_gsc.consent = consent
+        update_gsc.year_of_birth = year_of_birth
+        update_gsc.height = height
+        update_gsc.languages = languages
+        update_gsc.church_background = church_background
+        update_gsc.nationality = nationality
+        update_gsc.city = city
+        update_gsc.country = country
+        update_gsc.moving_to_a_different_town = moving_to_a_different_town
+        update_gsc.moving_to_a_different_country = moving_to_a_different_country
         update_gsc.social_media_profile_link = social_media_profile_link 
         update_gsc.preferred_contact_method = preferred_contact_method 
         update_gsc.contact_info = contact_info 
         update_gsc.notification_frequency = notification_frequency
         update_gsc.what_is_important_to_me = what_is_important_to_me
+        update_gsc.mbti = mbti
+        update_gsc.enneagram = enneagram
+        update_gsc.disc = disc
+        update_gsc.strengths_finder = strengths_finder
 
         if update_gsc.save(only=[
             Gsc.consent, 
+            Gsc.year_of_birth,
+            Gsc.height,
+            Gsc.languages,
+            Gsc.church_background,
+            Gsc.nationality,
+            Gsc.city,
+            Gsc.country,
+            Gsc.moving_to_a_different_town,
+            Gsc.moving_to_a_different_country,
             Gsc.social_media_profile_link,
             Gsc.preferred_contact_method,
             Gsc.contact_info,
             Gsc.notification_frequency,
-            Gsc.what_is_important_to_me
+            Gsc.what_is_important_to_me,
+            Gsc.mbti,
+            Gsc.enneagram,
+            Gsc.disc,
+            Gsc.strengths_finder
             ]):
             
             return jsonify({
