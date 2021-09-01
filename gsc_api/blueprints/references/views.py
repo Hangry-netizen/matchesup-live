@@ -6,8 +6,21 @@ from helpers import sendgrid
 references_api_blueprint = Blueprint('references_api',
                              __name__)
 
+@references_api_blueprint.route('/', methods=['GET'])
+def index():
+    references = Reference.select()
+
+    return jsonify([{
+        "ref_id": reference.id,
+        "ref_name": reference.ref_name,
+        "ref_email": reference.ref_email,
+        "reasons_gscf_makes_a_good_partner": reference.reasons_gscf_makes_a_good_partner,
+        "good_match_for_gscf": reference.good_match_for_gscf,
+        "is_approved": reference.is_approved
+    } for reference in references])
+
 @references_api_blueprint.route('/gsc/<uuid>', methods=['GET'])
-def index(uuid):
+def get_reference(uuid):
     gsc = Gsc.get_or_none(Gsc.uuid == uuid)
     references = gsc.references
 
@@ -20,6 +33,40 @@ def index(uuid):
         "is_approved": reference.is_approved
     } for reference in references])
     
+@references_api_blueprint.route('/send-reference-email/<ref_id>', methods=['POST'])
+def send_reference(ref_id):
+    reference = Reference.get_or_none(Reference.id == ref_id)
+
+    if reference:
+        gsc = reference.gsc
+        template_id = "d-6af1d902e5544dc68eeab4fe99809219"
+        data = {
+                "gscf_name": gsc.name,
+                "ref_name": reference.ref_name,
+                "ref_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/{reference.id}/reference/{reference.ref_name}"
+            }
+    
+        send_reference_email = sendgrid(to_email=reference.ref_email, dynamic_template_data=data, template_id=template_id)
+    
+        return jsonify({
+            "message": "Reference has been submitted successfully.",
+            "status": "success",
+            "reference": {
+                "ref_id": reference.id,
+                "ref_name": reference.ref_name,
+                "ref_email": reference.ref_email,
+                "reasons_gscf_makes_a_good_partner": reference.reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": reference.good_match_for_gscf,
+                "is_approved": reference.is_approved
+            }
+        })
+    
+    else:
+        return jsonify({
+            "message": "There is no such reference id",
+            "status": "failed"
+        })
+
 @references_api_blueprint.route('/', methods=['POST'])
 def create():
     data = request.json
