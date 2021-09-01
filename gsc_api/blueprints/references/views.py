@@ -42,7 +42,7 @@ def create():
                 "ref_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/{reference.id}/reference/{reference.ref_name}"
             }
 
-        send_reference_email = sengrid(to_email=reference.ref_email, dynamic_template_data=data, template_id=template_id)
+        send_reference_email = sendgrid(to_email=reference.ref_email, dynamic_template_data=data, template_id=template_id)
 
         return jsonify({
             "message": "Reference has been submitted successfully.",
