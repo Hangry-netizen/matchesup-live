@@ -49,6 +49,8 @@ def index():
         "notification_frequency": gsc.notification_frequency,
         "what_is_important_to_me": gsc.what_is_important_to_me,
         "is_approved": gsc.is_approved,
+        "is_rejected": gsc.is_rejected,
+        "rejected_reasons": gsc.rejected_reasons,
         "is_active": gsc.is_active,
         "is_activated": gsc.is_activated,
         "ff_name": gsc.ff_name,
@@ -182,6 +184,8 @@ def show(uuid):
             "notification_frequency": gsc.notification_frequency,
             "what_is_important_to_me": gsc.what_is_important_to_me,
             "is_approved": gsc.is_approved,
+            "is_rejected": gsc.is_rejected,
+            "rejected_reasons": gsc.rejected_reasons,
             "is_active": gsc.is_active,
             "is_activated": gsc.is_activated,
             "ff_name": gsc.ff_name,
@@ -446,12 +450,16 @@ def approve(uuid):
 
     data = request.json
 
-    is_approved = data.get('is_approved') 
+    is_approved = data.get('is_approved')
 
     if is_approved:
-        approve_gsc.is_approved = is_approved 
+        approve_gsc.is_approved = is_approved
+        approve_gsc.is_rejected = False
 
-        if approve_gsc.save(only=[Gsc.is_approved]):
+        if approve_gsc.save(only=[
+                Gsc.is_approved,
+                Gsc.is_rejected
+            ]):
             email = approve_gsc.email
             template_id = "d-e0573f50445145e9ba6542744ff4053a"
             data = {
@@ -492,19 +500,23 @@ def status(uuid):
     is_approved = data.get('is_approved') 
     is_active = data.get('is_active')
     is_activated = data.get('is_activated')
+    is_rejected = data.get('is_rejected')
 
     if (
     is_approved != "" or 
     is_active != "" or
-    is_activated != ""):
+    is_activated != "" or
+    is_rejected != ""):
         status.is_approved = is_approved 
         status.is_active = is_active 
         status.is_activated = is_activated
+        status.is_rejected = is_rejected
 
         if status.save(only=[
             Gsc.is_approved, 
             Gsc.is_active,
-            Gsc.is_activated
+            Gsc.is_activated,
+            Gsc.is_rejected
             ]):
 
             return jsonify({
@@ -515,7 +527,8 @@ def status(uuid):
                     "name": status.name,
                     "is_approved": status.is_approved,
                     "is_active": status.is_active,
-                    "is_activated": status.is_activated
+                    "is_activated": status.is_activated,
+                    "is_rejected": status.is_rejected
                  }
             })
 
@@ -530,6 +543,60 @@ def status(uuid):
             "message": "At least on field must be filled",
             "status": "failed"
         })
+
+@gscs_api_blueprint.route('/reject/<uuid>', methods=['POST'])
+def reject(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    is_rejected = data.get('is_rejected')
+    rejected_reasons = data.get('reasons')
+
+    if (is_rejected and rejected_reasons != ""):
+        gsc.is_rejected = is_rejected
+        gsc.rejected_reasons = rejected_reasons
+
+        if gsc.save(only=[
+            Gsc.is_rejected,
+            Gsc.rejected_reasons
+            ]):
+            email = gsc.email
+            template_id = "d-8d747e2d5d854f33bc23ed24b6af6e2f"
+            data = {
+                "gsc_name": gsc.name,
+                "reasons": gsc.rejected_reasons,
+                "edit_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+            }
+
+            send_rejected_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+
+            return jsonify({
+                "message": f"Successfully rejected {gsc.name}!",
+                "status": "success",
+                 "gsc": {
+                    "uuid": gsc.uuid,
+                    "name": gsc.name,
+                    "is_approved": gsc.is_approved,
+                    "is_active": gsc.is_active,
+                    "is_activated": gsc.is_activated,
+                    "is_rejected": gsc.is_rejected,
+                    "rejected_reasons": gsc.rejected_reasons
+                 }
+            })
+
+        elif gsc.errors != 0:
+            return jsonify({
+                "message": [error for error in gsc.errors],
+                "status": "failed"
+            })
+    
+    else:
+        return jsonify({
+            "message": "At least on field must be filled",
+            "status": "failed"
+        })
+
 
 @gscs_api_blueprint.route('/said-hi/<uuid>', methods=["GET"])
 def said_hi(uuid):
