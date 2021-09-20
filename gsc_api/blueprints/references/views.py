@@ -113,14 +113,24 @@ def create():
 def show(id):
     reference = Reference.get_or_none(Reference.id == id)
 
-    return jsonify({
-        "ref_id": reference.id,
-        "ref_name": reference.ref_name,
-        "ref_email": reference.ref_email,
-        "reasons_gscf_makes_a_good_partner": reference.reasons_gscf_makes_a_good_partner,
-        "good_match_for_gscf": reference.good_match_for_gscf,
-        "is_approved": reference.is_approved
-    })
+    if reference:
+        gsc = reference.gsc
+
+        return jsonify({
+            "gscf_name": gsc.name,
+            "gscf_email": gsc.email,
+            "ref_id": reference.id,
+            "ref_name": reference.ref_name,
+            "ref_email": reference.ref_email,
+            "reasons_gscf_makes_a_good_partner": reference.reasons_gscf_makes_a_good_partner,
+            "good_match_for_gscf": reference.good_match_for_gscf,
+            "is_approved": reference.is_approved
+        })
+    
+    else:
+        return jsonify({
+            "message": "There is no such reference"
+        })
 
 @references_api_blueprint.route('/<ref_id>', methods=['POST'])
 def update(ref_id):
