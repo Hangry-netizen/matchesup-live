@@ -1093,6 +1093,45 @@ def send_ffs_monthly_email():
     
     return jsonify(response)
 
+@gscs_api_blueprint.route('/send-consent-email/<uuid>', methods=['POST'])
+def send_consent_email(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    if gsc:
+        email = gsc.email
+        template_id="d-fcb0e7483d4448319fa772341765a581"
+        data = {
+            "gscf_name": gsc.name,
+            "ff_name": gsc.ff_name,
+            "ff_email": gsc.ff_email,
+            "consent_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}/consent",
+            "gsc_profile_link": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
+        }
+
+        send_gsc_consent_email = sendgrid(to_email=email, dynamic_template_data=data, template_id=template_id)
+
+        if send_gsc_consent_email:
+            return jsonify({
+                "message": f"Successfully sent consent email to {gsc.name}",
+                "status": "success",
+                "gsc": {
+                    "name": gsc.name,
+                    "email": gsc.email
+                }
+            })
+
+        else:
+            return jsonify({
+                "message": f"Failed to send consent email to {gsc.name}",
+                "status": "failed",
+            })
+
+    else:
+        return jsonify({
+            "message": "There is no such gsc",
+            "status": "failed",
+        })
+
 @gscs_api_blueprint.route('/suggested/<uuid>', methods=['POST'])
 def append_suggested(uuid):
     gsc = Gsc.get_or_none(Gsc.uuid == uuid)
