@@ -865,7 +865,7 @@ def database_display(uuid):
                     if gsc.id not in duplicate_check:
                             duplicate_check.append(gsc.id)
             
-        if gsc.is_active and gsc.id not in duplicate_check and gsc.id not in currentGsc.contacted and gsc.gender != currentGsc.gender:
+        if gsc.is_active and gsc.id not in duplicate_check and gsc.gender != currentGsc.gender:
             reasons_gscf_makes_a_good_partner = ""
             good_match_for_gscf = ""
 
