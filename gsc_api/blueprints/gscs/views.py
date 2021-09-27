@@ -720,6 +720,9 @@ def database_display(uuid):
     response = []
     duplicate_check = []
 
+    if currentGsc.contacted == None:
+        currentGsc.contacted = []
+
     for gsc in gscs:
         for hello in said_hi_hellos:
             if hello.hi_recipient == gsc and hello.removed == False:
