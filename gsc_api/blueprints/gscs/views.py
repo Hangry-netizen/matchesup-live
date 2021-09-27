@@ -720,11 +720,14 @@ def database_display(uuid):
     response = []
     duplicate_check = []
 
+    if currentGsc.contacted is None:
+        currentGsc.contacted = []
+
     for gsc in gscs:
         for hello in said_hi_hellos:
             if hello.hi_recipient == gsc:
                 if hello.removed == False:
-                    if gsc.is_active:
+                    if gsc.is_active and gsc.id not in currentGsc.contacted:
                         reasons_gscf_makes_a_good_partner = ""
                         good_match_for_gscf = ""
                         if gsc.references:
@@ -796,7 +799,7 @@ def database_display(uuid):
         for hello in hi_recipient_hellos:
             if hello.said_hi == gsc:
                 if hello.removed == False:
-                    if gsc.is_active:
+                    if gsc.is_active and gsc.id not in currentGsc.contacted:
                         reasons_gscf_makes_a_good_partner = ""
                         good_match_for_gscf = ""
 
@@ -867,7 +870,7 @@ def database_display(uuid):
                     if gsc.id not in duplicate_check:
                             duplicate_check.append(gsc.id)
             
-        if ((gsc.is_active) and (gsc.id not in duplicate_check) and (gsc.gender != currentGsc.gender)):
+        if ((gsc.is_active) and (gsc.id not in duplicate_check) and (gsc.gender != currentGsc.gender) and (gsc.id not in currentGsc.contacted)):
             reasons_gscf_makes_a_good_partner = ""
             good_match_for_gscf = ""
 
