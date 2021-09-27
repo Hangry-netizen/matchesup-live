@@ -932,8 +932,6 @@ def database_display(uuid):
             if gsc.id not in duplicate_check:
                 response.append(data)
                 duplicate_check.append(gsc.id)
-        elif gsc.id not in duplicate check:
-            duplicate_check.append(gsc.id)
 
     return jsonify(response)
 
