@@ -74,17 +74,13 @@ def create():
             if said_hi.save(only=[Gsc.monthly_hellos]):
                 if hi_recipient.notification_frequency == "same_day":
                     gsc_email = hi_recipient.email
-                    ff_email = hi_recipient.ff_email
                     hello_notification_for_gsc_template_id = "d-50854c382f034a1cba98fa13af5e7df9"
-                    hello_notification_for_ff_template_id = "d-6a73fe538bef4c779114ab44477d5d37"
                     data = {
                         "gscf_name": hi_recipient.name,
-                        "ff_name": hi_recipient.ff_name,
                         "hello_page_url": f"https://www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
                     }
                     
                     send_email_to_gsc = sendgrid(to_email=gsc_email, dynamic_template_data=data, template_id=hello_notification_for_gsc_template_id)
-                    send_email_to_ff = sendgrid(to_email=ff_email, dynamic_template_data=data, template_id=hello_notification_for_ff_template_id)
     
                     return jsonify({
                         "message": f"You've said hi to {hi_recipient.name}!",
@@ -175,17 +171,13 @@ def notification(id):
         hi_recipient = hello.hi_recipient
         if hi_recipient.notification_frequency == "weekly":
                     gsc_email = hi_recipient.email
-                    ff_email = hi_recipient.ff_email
                     hello_notification_for_gsc_template_id = "d-50854c382f034a1cba98fa13af5e7df9"
-                    hello_notification_for_ff_template_id = "d-6a73fe538bef4c779114ab44477d5d37"
                     data = {
                         "gscf_name": hi_recipient.name,
-                        "ff_name": hi_recipient.ff_name,
                         "hello_page_url": f"https://www.matchesup.com/good-single-christian-friend/{hi_recipient.uuid}/hellos"
                     }
                     
                     send_email_to_gsc = sendgrid(to_email=gsc_email, dynamic_template_data=data, template_id=hello_notification_for_gsc_template_id)
-                    send_email_to_ff = sendgrid(to_email=ff_email, dynamic_template_data=data, template_id=hello_notification_for_ff_template_id)
     
                     return jsonify({
                         "message": f"Successfully sent hello notification to {hi_recipient.name}!",
