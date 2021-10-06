@@ -1467,3 +1467,23 @@ def activate(id):
                 "message": f"There is no such gsc",
                 "status": "failed"
             })
+
+@gscs_api_blueprint.route('/active-ffs', methods=['GET'])
+def active_ffs():
+    gscs = Gsc.select()
+
+    response = []
+
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.ff_email not in duplicate_check:
+            data = {
+                "ff_name": gsc.ff_name,
+                "ff_email": gsc.ff_email
+            }
+            
+            response.append(data)
+            duplicate_check.append(gsc.ff_email)
+
+    return jsonify(response)
