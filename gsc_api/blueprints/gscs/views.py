@@ -1487,3 +1487,32 @@ def active_ffs():
             duplicate_check.append(gsc.ff_email)
 
     return jsonify(response)
+
+@gscs_api_blueprint.route('/edit-ff-email/<uuid>', methods=['POST'])
+def update_ff_email(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    ff_email = data.get('ff_email')
+    
+    if gsc and ff_email != "":
+        gsc.ff_email = ff_email
+        
+        if gsc.save(only=[Gsc.ff_email]):
+            return jsonify({
+                "message": f"Successfully updated GSC {gsc.name}'s ff email to {gsc.ff_email}!",
+                "status": "success"
+            })
+
+        elif gsc.errors != 0:
+            return jsonify({
+                "message": [error for error in gsc.errors],
+                "status": "failed"
+            })
+    
+    else:
+        return jsonify({
+            "message": "FF email field is required",
+            "status": "failed"
+        })
