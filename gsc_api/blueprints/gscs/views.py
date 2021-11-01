@@ -55,7 +55,8 @@ def index():
         "is_activated": gsc.is_activated,
         "ff_name": gsc.ff_name,
         "ff_email": gsc.ff_email,
-        "monthly_hellos": gsc.monthly_hellos
+        "monthly_hellos": gsc.monthly_hellos,
+        "admin_archived": gsc.admin_archived
         }
         for gsc in gscs
     ])
@@ -491,56 +492,29 @@ def approve(uuid):
             "status": "failed"
         })
 
-@gscs_api_blueprint.route('/status/<uuid>', methods=['POST'])
-def status(uuid):
-    status = Gsc.get_or_none(Gsc.uuid == uuid)
+@gscs_api_blueprint.route('/admin-archive/toggle/<uuid>', methods=['POST'])
+def archive(uuid):
+    gsc = Gsc.get_or_none(Gsc.uuid == uuid)
 
-    data = request.json
+    if gsc:
+        gsc.admin_archived = not gsc.admin_archived
 
-    is_approved = data.get('is_approved') 
-    is_active = data.get('is_active')
-    is_activated = data.get('is_activated')
-    is_rejected = data.get('is_rejected')
-
-    if (
-    is_approved != "" or 
-    is_active != "" or
-    is_activated != "" or
-    is_rejected != ""):
-        status.is_approved = is_approved 
-        status.is_active = is_active 
-        status.is_activated = is_activated
-        status.is_rejected = is_rejected
-
-        if status.save(only=[
-            Gsc.is_approved, 
-            Gsc.is_active,
-            Gsc.is_activated,
-            Gsc.is_rejected
-            ]):
-
+        if gsc.save(only=[Gsc.admin_archived]):
+            gsc.admin_archived
             return jsonify({
-                "message": "Successfully updated GSCF status!",
+                "message": f"Successfully toggled {gsc.name} admin archived status!",
                 "status": "success",
-                 "gsc": {
-                    "uuid": status.uuid,
-                    "name": status.name,
-                    "is_approved": status.is_approved,
-                    "is_active": status.is_active,
-                    "is_activated": status.is_activated,
-                    "is_rejected": status.is_rejected
-                 }
+                "admin_archived": gsc.admin_archived
             })
-
-        elif status.errors != 0:
+    
+        elif gsc.errors != 0:
             return jsonify({
                 "message": [error for error in status.errors],
                 "status": "failed"
             })
-    
     else:
         return jsonify({
-            "message": "At least on field must be filled",
+            "message": "There is no such GSC",
             "status": "failed"
         })
 

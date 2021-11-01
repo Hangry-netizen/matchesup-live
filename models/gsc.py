@@ -53,6 +53,7 @@ class Gsc(BaseModel):
     maybe = pg.ArrayField(pw.IntegerField, default=[], null=True)
     deleted = pg.ArrayField(pw.IntegerField, default=[], null=True)
     monthly_hellos = pw.IntegerField(default=0)
+    admin_archived = pw.BooleanField(default=False)
 
     def validate(self):
         duplicate_email = Gsc.get_or_none(Gsc.email == self.email)
