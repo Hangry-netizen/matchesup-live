@@ -1462,20 +1462,20 @@ def active_ffs():
 
     return jsonify(response)
 
-@gscs_api_blueprint.route('/edit-gender/<uuid>', methods=['POST'])
-def update_gender(uuid):
+@gscs_api_blueprint.route('/edit-email/<uuid>', methods=['POST'])
+def update_email(uuid):
     gsc = Gsc.get_or_none(Gsc.uuid == uuid)
 
     data = request.json
 
-    gender = data.get('gender')
+    email = data.get('email')
     
-    if gsc and gender != "":
-        gsc.gender = gender
+    if gsc and email != "":
+        gsc.email = email
         
-        if gsc.save(only=[Gsc.gender]):
+        if gsc.save(only=[Gsc.email]):
             return jsonify({
-                "message": f"Successfully updated GSC {gsc.name}'s gender to {gsc.gender}!",
+                "message": f"Successfully updated GSC {gsc.name}'s email to {gsc.email}!",
                 "status": "success"
             })
 
@@ -1487,6 +1487,6 @@ def update_gender(uuid):
     
     else:
         return jsonify({
-            "message": "Gender field is required",
+            "message": "Email field is required",
             "status": "failed"
         })
