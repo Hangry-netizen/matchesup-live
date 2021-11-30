@@ -354,7 +354,7 @@ def consent(uuid):
 
     data = request.json
 
-    consent = data.get('consent')
+    consent = True
     year_of_birth = data.get('year_of_birth')
     height = data.get('height')
     languages = data.get('languages')
@@ -375,7 +375,6 @@ def consent(uuid):
     strengths_finder = data.get('strengths_finder')
 
     if (
-    consent != "" or
     social_media_profile_link != "" or 
     preferred_contact_method != "" or 
     contact_info != "" or 
@@ -1490,3 +1489,25 @@ def update_email(uuid):
             "message": "Email field is required",
             "status": "failed"
         })
+
+@gscs_api_blueprint.route('/consent-is-true/<id>', methods=['POST'])
+def consent_true(id):
+    gsc = Gsc.get_or_none(Gsc.id == id)
+
+    if gsc:
+        gsc.consent = True
+        if gsc.save(only=[Gsc.consent]):
+            return jsonify({
+                "message": f"Successfully consented for {gsc.name}",
+                "status": "success"
+            })
+        else:
+            return jsonify({
+                "message": f"Failed to consent for {gsc.name}",
+                "status": "failed"
+            })
+    else:
+        return jsonify({
+                "message": f"There is no such gsc",
+                "status": "failed"
+            })
