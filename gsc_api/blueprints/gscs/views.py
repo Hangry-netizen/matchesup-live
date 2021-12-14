@@ -144,6 +144,18 @@ def show(uuid):
     gsc = Gsc.get_or_none(Gsc.uuid == uuid)
 
     if gsc:
+        reports = gsc.reported_by
+
+        reports_list = []
+        reports_duplicate_check = []
+    
+        for report in reports:
+            report_target = report.report_target
+                
+            if report_target.id not in reports_duplicate_check:
+                reports_list.append(report_target.id)
+                reports_duplicate_check.append(report_target.id)
+
         return jsonify({
             "uuid": gsc.uuid,
             "id": gsc.id,
@@ -194,7 +206,8 @@ def show(uuid):
             "suggested": gsc.suggested,
             "maybe": gsc.maybe,
             "contacted": gsc.contacted,
-            "deleted": gsc.deleted
+            "deleted": gsc.deleted,
+            "reports": reports_list
         })
 
     else:
