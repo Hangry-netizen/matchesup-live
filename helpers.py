@@ -4,7 +4,7 @@ from app import app
 
 def sendgrid(to_email, dynamic_template_data, template_id):
     message = Mail(
-        from_email=('noreply@matchesup.com', 'MatchesUp'),
+        from_email=('no-reply@matchesup.com', 'MatchesUp'),
         to_emails=to_email
         )
     
