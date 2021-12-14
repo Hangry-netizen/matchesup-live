@@ -48,7 +48,7 @@ def create():
             reported_by = report.reported_by
             report_target = report.report_target
 
-            admin_email = "queenaleechin@gmail.com"
+            admin_email = "matchesup@gmail.com"
             report_admin_notification_template_id = "d-687dec242050416cac93277d63f82291"
             data = {
                 "report_target_name": report_target.name,
