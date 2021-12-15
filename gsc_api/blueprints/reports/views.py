@@ -21,7 +21,8 @@ def index():
             "report_target_name": report_target.name,
             "report_target_email": report_target.email,
             "reason": report.reason,
-            "archived": report.archived,
+            "recommended_action": report.recommended_action,
+            "resolved": report.resolved,
             "admin_remarks": report.admin_remarks
         }
         response.append(data)
@@ -36,19 +37,21 @@ def create():
     reported_by = data.get("reported_by")
     report_target = data.get("report_target")
     reason = data.get("reason")
+    recommended_action = data.get("recommended_action")
     
     if reported_by and report_target and reason:
         report = Report(
             reported_by = reported_by,
             report_target = report_target,
-            reason = reason
+            reason = reason,
+            recommended_action = recommended_action,
         )
         
         if report.save():
             reported_by = report.reported_by
             report_target = report.report_target
 
-            admin_email = "matchesup@gmail.com"
+            admin_email = ["matchesup@gmail.com", "Jengoverseas@gmail.com"]
             report_admin_notification_template_id = "d-687dec242050416cac93277d63f82291"
             data = {
                 "report_target_name": report_target.name,
@@ -92,6 +95,29 @@ def delete(id):
     else:
         return jsonify({
             "message": "Report can't be found",
+            "status": "failed"
+        })
+
+@reports_api_blueprint.route('/resolve/<id>', methods=['POST'])
+def resolve(id):
+    report = Report.get_or_none(Report.id == id)
+
+    if report:
+        report.resolved = True
+
+        if report.save(only=[Report.resolved]):
+            return jsonify({
+                "message": "Successfully marked report as resolved",
+                "status": "success"
+            })
+        else:
+            return jsonify({
+                "message": "Failed to mark report as resolved",
+                "status": "failed"
+            })
+    else:
+        return jsonify({
+            "message": "Report cannot be found",
             "status": "failed"
         })
 

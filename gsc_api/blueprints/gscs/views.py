@@ -594,7 +594,29 @@ def said_hi(uuid):
 
     for hello in hellos:
         hi_recipient = hello.hi_recipient
-        if hello.removed == False:
+        if hello.removed == False and hi_recipient.is_active == True:
+            reasons_gscf_makes_a_good_partner = ""
+            good_match_for_gscf = ""
+            if hi_recipient.references:
+                refs = hi_recipient.references
+                for ref in refs:
+                    if ref.is_approved:
+                        if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+                
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+            else:
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
@@ -619,8 +641,8 @@ def said_hi(uuid):
                 "spiritual_gifts": hi_recipient.spiritual_gifts,
                 "spiritual_maturity": hi_recipient.spiritual_maturity,
                 "church_background": hi_recipient.church_background,
-                "reasons_gscf_makes_a_good_partner": hi_recipient.reasons_gscf_makes_a_good_partner,
-                "good_match_for_gscf": hi_recipient.good_match_for_gscf,
+                "reasons_gscf_makes_a_good_partner": reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": good_match_for_gscf,
                 "moving_to_a_different_town": hi_recipient.moving_to_a_different_town,
                 "moving_to_a_different_country": hi_recipient.moving_to_a_different_country,
                 "has_been_married_or_has_kids": hi_recipient.has_been_married_or_has_kids,
@@ -650,7 +672,29 @@ def hi_recipient(uuid):
 
     for hello in hellos:
         said_hi = hello.said_hi
-        if hello.removed == False:
+        if hello.removed == False and said_hi.is_active == True:
+            reasons_gscf_makes_a_good_partner = ""
+            good_match_for_gscf = ""
+            if said_hi.references:
+                refs = said_hi.references
+                for ref in refs:
+                    if ref.is_approved:
+                        if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner.strip()
+                            good_match_for_gscf.strip()
+                
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+            else:
+                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner.strip()
+                good_match_for_gscf.strip()
+
             data = {
                 "hello_id": hello.id,
                 "hello_contacted": hello.contacted,
@@ -675,8 +719,8 @@ def hi_recipient(uuid):
                 "spiritual_gifts": said_hi.spiritual_gifts,
                 "spiritual_maturity": said_hi.spiritual_maturity,
                 "church_background": said_hi.church_background,
-                "reasons_gscf_makes_a_good_partner": said_hi.reasons_gscf_makes_a_good_partner,
-                "good_match_for_gscf": said_hi.good_match_for_gscf,
+                "reasons_gscf_makes_a_good_partner": reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": good_match_for_gscf,
                 "moving_to_a_different_town": said_hi.moving_to_a_different_town,
                 "moving_to_a_different_country": said_hi.moving_to_a_different_country,
                 "has_been_married_or_has_kids": said_hi.has_been_married_or_has_kids,
