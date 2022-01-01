@@ -76,7 +76,7 @@ def superadmin_edit(uuid):
     if (gender != ""):
         update_gsc.gender = gender
         
-        if update_gsc.save(only=[Gsc.gender):
+        if update_gsc.save(only=[Gsc.gender]):
             return jsonify({
                 "message": f"Successfully updated {update_gsc.name}'s gender!",
                 "status": "success"
