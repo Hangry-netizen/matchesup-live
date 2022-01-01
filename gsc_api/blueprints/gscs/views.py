@@ -1011,7 +1011,7 @@ def send_database(uuid):
             gsc.monthly_hellos = monthly_hellos
             if gsc.save(only=[Gsc.monthly_hellos]):
                 email = gsc.email
-                template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
+                template_id = "d-bda91c1b1a0f4ba8b7414944c5337ebb"
                 data = {
                     "gscf_name": gsc.name,
                     "database_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
@@ -1063,7 +1063,7 @@ def send_gscs_monthly_database():
                 gsc.monthly_hellos = monthly_hellos
                 if gsc.save(only=[Gsc.monthly_hellos]):
                     email = gsc.email
-                    template_id = "d-87bbcbdab62a406d99104e4b9731bc7a"
+                    template_id = "d-bda91c1b1a0f4ba8b7414944c5337ebb"
                     data = {
                         "gscf_name": gsc.name,
                         "database_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
@@ -1100,7 +1100,7 @@ def send_ffs_monthly_email():
     for gsc in gscs:
         if gsc.is_active and gsc.ff_email not in duplicate_check:
             email = gsc.ff_email
-            template_id = "d-2e75b4a841eb4f8daf8cc426ea5f7c6c"
+            template_id = "d-7f39ae9f59c746e5a803919fc85fef16"
             data = {
                 "ff_name": gsc.ff_name
             }
