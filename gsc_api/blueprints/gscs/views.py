@@ -1568,3 +1568,133 @@ def consent_true(id):
                 "message": f"There is no such gsc",
                 "status": "failed"
             })
+
+@gscs_api_blueprint.route('/to-be-activated', methods=["GET"])
+def to_be_activated():
+    gscs = Gsc.select()
+
+    response = []
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.is_activated == False and gsc.is_approved == True:
+            data = {
+                "uuid": gsc.uuid,
+                "id": gsc.id,
+                "name": gsc.name,
+                "email": gsc.email,
+                "gender": gsc.gender,
+                "year_of_birth": gsc.year_of_birth,
+                "height": gsc.height,
+                "languages": gsc.languages,
+                "nationality": gsc.nationality,
+                "city": gsc.city,
+                "country": gsc.country,
+                "descriptive_words": gsc.descriptive_words,
+                "mbti": gsc.mbti,
+                "enneagram": gsc.enneagram,
+                "disc": gsc.disc,
+                "strengths_finder": gsc.strengths_finder,
+                "favorite_topics": gsc.favorite_topics,
+                "chill_activities": gsc.chill_activities,
+                "do": gsc.do,
+                "skills_and_talents": gsc.skills_and_talents,
+                "growth_and_development": gsc.growth_and_development,
+                "spiritual_gifts": gsc.spiritual_gifts,
+                "spiritual_maturity": gsc.spiritual_maturity,
+                "church_background": gsc.church_background,
+                "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": gsc.good_match_for_gscf,
+                "moving_to_a_different_town": gsc.moving_to_a_different_town,
+                "moving_to_a_different_country": gsc.moving_to_a_different_country,
+                "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+                "want_to_have_kids": gsc.want_to_have_kids,
+                "important_info_to_know": gsc.important_info_to_know,
+                "alias": gsc.alias,
+                "consent": gsc.consent,
+                "social_media_profile_link": gsc.social_media_profile_link,
+                "preferred_contact_method": gsc.preferred_contact_method,
+                "contact_info": gsc.contact_info,
+                "notification_frequency": gsc.notification_frequency,
+                "what_is_important_to_me": gsc.what_is_important_to_me,
+                "is_approved": gsc.is_approved,
+                "is_rejected": gsc.is_rejected,
+                "rejected_reasons": gsc.rejected_reasons,
+                "is_active": gsc.is_active,
+                "is_activated": gsc.is_activated,
+                "ff_name": gsc.ff_name,
+                "ff_email": gsc.ff_email,
+                "monthly_hellos": gsc.monthly_hellos,
+                "admin_archived": gsc.admin_archived
+            }
+
+            if gsc.id not in duplicate_check:
+                response.append(data)
+                duplicate_check.append(gsc.id)
+    
+    return jsonify(response)
+
+@gscs_api_blueprint.route('/to-be-approved', methods=["GET"])
+def to_be_approved():
+    gscs = Gsc.select()
+
+    response = []
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.is_approved == False and gsc.consent == True:
+            data = {
+                "uuid": gsc.uuid,
+                "id": gsc.id,
+                "name": gsc.name,
+                "email": gsc.email,
+                "gender": gsc.gender,
+                "year_of_birth": gsc.year_of_birth,
+                "height": gsc.height,
+                "languages": gsc.languages,
+                "nationality": gsc.nationality,
+                "city": gsc.city,
+                "country": gsc.country,
+                "descriptive_words": gsc.descriptive_words,
+                "mbti": gsc.mbti,
+                "enneagram": gsc.enneagram,
+                "disc": gsc.disc,
+                "strengths_finder": gsc.strengths_finder,
+                "favorite_topics": gsc.favorite_topics,
+                "chill_activities": gsc.chill_activities,
+                "do": gsc.do,
+                "skills_and_talents": gsc.skills_and_talents,
+                "growth_and_development": gsc.growth_and_development,
+                "spiritual_gifts": gsc.spiritual_gifts,
+                "spiritual_maturity": gsc.spiritual_maturity,
+                "church_background": gsc.church_background,
+                "reasons_gscf_makes_a_good_partner": gsc.reasons_gscf_makes_a_good_partner,
+                "good_match_for_gscf": gsc.good_match_for_gscf,
+                "moving_to_a_different_town": gsc.moving_to_a_different_town,
+                "moving_to_a_different_country": gsc.moving_to_a_different_country,
+                "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+                "want_to_have_kids": gsc.want_to_have_kids,
+                "important_info_to_know": gsc.important_info_to_know,
+                "alias": gsc.alias,
+                "consent": gsc.consent,
+                "social_media_profile_link": gsc.social_media_profile_link,
+                "preferred_contact_method": gsc.preferred_contact_method,
+                "contact_info": gsc.contact_info,
+                "notification_frequency": gsc.notification_frequency,
+                "what_is_important_to_me": gsc.what_is_important_to_me,
+                "is_approved": gsc.is_approved,
+                "is_rejected": gsc.is_rejected,
+                "rejected_reasons": gsc.rejected_reasons,
+                "is_active": gsc.is_active,
+                "is_activated": gsc.is_activated,
+                "ff_name": gsc.ff_name,
+                "ff_email": gsc.ff_email,
+                "monthly_hellos": gsc.monthly_hellos,
+                "admin_archived": gsc.admin_archived
+            }
+
+            if gsc.id not in duplicate_check:
+                response.append(data)
+                duplicate_check.append(gsc.id)
+    
+    return jsonify(response)
