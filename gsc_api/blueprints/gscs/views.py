@@ -607,13 +607,13 @@ def said_hi(uuid):
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                 
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
             else:
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
 
@@ -680,18 +680,18 @@ def hi_recipient(uuid):
                 for ref in refs:
                     if ref.is_approved:
                         if ref.reasons_gscf_makes_a_good_partner and ref.good_match_for_gscf:
-                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner
-                            good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + ref.reasons_gscf_makes_a_good_partner 
+                            good_match_for_gscf = good_match_for_gscf + " " + ref.good_match_for_gscf 
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                 
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf 
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
             else:
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
 
@@ -843,13 +843,13 @@ def database_display(uuid):
                                         reasons_gscf_makes_a_good_partner.strip()
                                         good_match_for_gscf.strip()
                             
-                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                         else:
-                            reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                            good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                            reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                            good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
 
@@ -914,13 +914,13 @@ def database_display(uuid):
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                 
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
             else:
-                reasons_gscf_makes_a_good_partner = reasons_gscf_makes_a_good_partner + " " + gsc.reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = good_match_for_gscf + " " + gsc.good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
 
