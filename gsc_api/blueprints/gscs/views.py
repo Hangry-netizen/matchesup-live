@@ -434,6 +434,14 @@ def consent(uuid):
             Gsc.disc,
             Gsc.strengths_finder
             ]):
+
+            admin_email = "Jengoverseas@gmail.com"
+            approval_admin_notification_template_id = "d-ff4daaad391c45b191aabaa3de87a338"
+            data = {
+                "gsc_name": update_gsc.name
+            }
+                    
+            send_email_to_admin = sendgrid(to_email=admin_email, dynamic_template_data=data, template_id=approval_admin_notification_template_id)
             
             return jsonify({
                 "message": "Successfully submitted consent!",
