@@ -183,3 +183,31 @@ def notification(id):
                         "message": f"Successfully sent hello notification to {hi_recipient.name}!",
                         "status": "success"
                     })
+        
+@hellos_api_blueprint.route('/status', methods=['GET'])
+def active():
+    hellos = Hello.select()
+
+    count = 0
+    active_response = []
+
+    for hello in hellos:
+
+        said_hi = hello.said_hi
+        hi_recipient = hello.hi_recipient
+
+        if hello.contacted != True or hello.removed != True:
+            count += 1
+            data = {
+                "count": count,
+                "hello_id": hello.id,
+                "contacted": hello.contacted,
+                "removed": hello.removed,
+                "said_hi": said_hi.name,
+                "hi_recipient": hi_recipient.name,
+                "hi_recipient_notification_frequency": hi_recipient.notification_frequency
+            }
+        
+            active_response.append(data)
+
+    return jsonify(response)
