@@ -1515,7 +1515,7 @@ def active_ffs():
     duplicate_check = []
 
     for gsc in gscs:
-        if gsc.ff_email not in duplicate_check:
+        if gsc.ff_email not in duplicate_check and gsc.is_active:
             data = {
                 "ff_name": gsc.ff_name,
                 "ff_email": gsc.ff_email
@@ -1523,6 +1523,29 @@ def active_ffs():
             
             response.append(data)
             duplicate_check.append(gsc.ff_email)
+
+    return jsonify(response)
+
+@gscs_api_blueprint.route('/active', methods=['GET'])
+def active():
+    gscs = Gsc.select()
+
+    count = 0
+    response = []
+
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.is_active:
+            count += 1
+            data = {
+                "count": count,
+                "id": gsc.id,
+                "gender": gsc.gender,
+                "name": gsc.name
+            }
+            
+            response.append(data)
 
     return jsonify(response)
 
