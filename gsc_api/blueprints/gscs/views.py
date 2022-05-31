@@ -1526,8 +1526,8 @@ def active_ffs():
 
     return jsonify(response)
 
-@gscs_api_blueprint.route('/active', methods=['GET'])
-def active():
+@gscs_api_blueprint.route('/active/male', methods=['GET'])
+def active_male():
     gscs = Gsc.select()
 
     count = 0
@@ -1536,7 +1536,30 @@ def active():
     duplicate_check = []
 
     for gsc in gscs:
-        if gsc.is_active:
+        if gsc.is_active and gsc.gender == "Male":
+            count += 1
+            data = {
+                "count": count,
+                "id": gsc.id,
+                "gender": gsc.gender,
+                "name": gsc.name
+            }
+            
+            response.append(data)
+
+    return jsonify(response)
+
+@gscs_api_blueprint.route('/active/female', methods=['GET'])
+def active_female():
+    gscs = Gsc.select()
+
+    count = 0
+    response = []
+
+    duplicate_check = []
+
+    for gsc in gscs:
+        if gsc.is_active and gsc.gender == "Female":
             count += 1
             data = {
                 "count": count,
