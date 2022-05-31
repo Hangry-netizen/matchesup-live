@@ -184,12 +184,12 @@ def notification(id):
                         "status": "success"
                     })
         
-@hellos_api_blueprint.route('/status', methods=['GET'])
+@hellos_api_blueprint.route('/active', methods=['GET'])
 def active():
     hellos = Hello.select()
 
     count = 0
-    active_response = []
+    response = []
 
     for hello in hellos:
 
@@ -207,7 +207,7 @@ def active():
                 "hi_recipient": hi_recipient.name,
                 "hi_recipient_notification_frequency": hi_recipient.notification_frequency
             }
-        
-            active_response.append(data)
+            
+            response.append(data)
 
     return jsonify(response)
