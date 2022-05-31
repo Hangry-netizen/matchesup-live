@@ -99,7 +99,7 @@ def create():
                 })
         elif hello.errors != 0:
             return jsonify({
-                "message": [error for error in reference.errors],
+                "message": [error for error in hello.errors],
                 "status": "failed"
             })
 
@@ -121,7 +121,7 @@ def update(id):
         
         elif hello.errors != 0:
             return jsonify({
-                "message": [error for error in reference.errors],
+                "message": [error for error in hello.errors],
                 "status": "failed"
             })
 
@@ -143,7 +143,7 @@ def remove(id):
         
         elif hello.errors != 0:
             return jsonify({
-                "message": [error for error in reference.errors],
+                "message": [error for error in hello.errors],
                 "status": "failed"
             })
 
