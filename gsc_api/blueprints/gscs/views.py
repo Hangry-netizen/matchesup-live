@@ -615,13 +615,13 @@ def said_hi(uuid):
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                 
-                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = hi_recipient.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = hi_recipient.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
             else:
-                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
-                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = hi_recipient.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
+                good_match_for_gscf = hi_recipient.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
 
@@ -693,13 +693,13 @@ def hi_recipient(uuid):
                             reasons_gscf_makes_a_good_partner.strip()
                             good_match_for_gscf.strip()
                 
-                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
-                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf 
+                reasons_gscf_makes_a_good_partner = said_hi.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner
+                good_match_for_gscf = said_hi.good_match_for_gscf + " " + good_match_for_gscf 
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
             else:
-                reasons_gscf_makes_a_good_partner = gsc.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
-                good_match_for_gscf = gsc.good_match_for_gscf + " " + good_match_for_gscf
+                reasons_gscf_makes_a_good_partner = said_hi.reasons_gscf_makes_a_good_partner + " " + reasons_gscf_makes_a_good_partner 
+                good_match_for_gscf = said_hi.good_match_for_gscf + " " + good_match_for_gscf
                 reasons_gscf_makes_a_good_partner.strip()
                 good_match_for_gscf.strip()
 
