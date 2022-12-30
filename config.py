@@ -7,6 +7,9 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
+    
+    EC2_KEY = os.environ.get("EC2_KEY")
+    EC2_SECRET = os.environ.get("EC2_SECRET")
 
     SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 
