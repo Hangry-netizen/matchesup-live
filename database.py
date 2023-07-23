@@ -2,18 +2,19 @@ import os
 from urllib.parse import urlparse
 
 def parse_db_url():
-    #parsed = urlparse(database_url)
+    parsed = urlparse(database_url)
     return {
-        #'user': parsed.username,
-        #'password': parsed.password,
-        #'host': parsed.hostname,
-        #'port': parsed.port,
-        #'database': parsed.path[1:]
-        'user': os.environ['USER'],
-        'password': os.environ['PASSWORD'],
-        'host': os.environ['DATABASE_URL'],
-        'port': os.environ['PORT'],
-        'database': os.environ['DBNAME']
+        'user': parsed.username,
+        'password': parsed.password,
+        'host': parsed.hostname,
+        'port': parsed.port,
+        'database': parsed.path[1:]
+        
+        # 'user': os.environ['USER'],
+        # 'password': os.environ['PASSWORD'],
+        # 'host': os.environ['DATABASE_URL'],
+        # 'port': os.environ['PORT'],
+        # 'database': os.environ['DBNAME']
     }
 
 def return_db():
