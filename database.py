@@ -1,7 +1,7 @@
 import os
 from urllib.parse import urlparse
 
-def parse_db_url():
+def parse_db_url(database_url):
     parsed = urlparse(database_url)
     return {
         'user': parsed.username,
@@ -9,17 +9,10 @@ def parse_db_url():
         'host': parsed.hostname,
         'port': parsed.port,
         'database': parsed.path[1:]
-        
-        # 'user': os.environ['USER'],
-        # 'password': os.environ['PASSWORD'],
-        # 'host': os.environ['DATABASE_URL'],
-        # 'port': os.environ['PORT'],
-        # 'database': os.environ['DBNAME']
     }
 
 def return_db():
-    #db_config = parse_db_url(os.environ['DATABASE_URL'])
-    db_config = parse_db_url()
+    db_config = parse_db_url(os.environ['DATABASE_URL'])
 
     if os.getenv('MIGRATION', '0') == '1':
         from playhouse.postgres_ext import PostgresqlExtDatabase
