@@ -17,7 +17,7 @@ response = ec2.describe_instances()
 conn = ec2.run_instances(InstanceType="t2.micro",
                          MaxCount=1,
                          MinCount=1,
-                         ImageId="ami-005835d578c62050d")
+                         ImageId="ami-0df7a207adb9748c7")
 print(conn)
 
 def sendgrid(to_email, dynamic_template_data, template_id):
