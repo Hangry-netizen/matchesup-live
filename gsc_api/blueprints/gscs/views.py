@@ -1013,14 +1013,13 @@ def send_database(uuid):
     data = request.json
 
     monthly_hellos = data.get('monthly_hellos') 
-    template = data.get('template_id')
 
     if (monthly_hellos != ""):
         if gsc.is_active:
             gsc.monthly_hellos = monthly_hellos
             if gsc.save(only=[Gsc.monthly_hellos]):
                 email = gsc.email
-                template_id = template
+                template_id = "d-bda91c1b1a0f4ba8b7414944c5337ebb"
                 data = {
                     "gscf_name": gsc.name,
                     "database_url": f"https://www.matchesup.com/good-single-christian-friend/{gsc.uuid}"
